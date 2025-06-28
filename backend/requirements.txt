@@ -8,3 +8,4 @@ pydantic-settings==2.1.0
 sqlalchemy==2.0.23
 fdb==2.0.2
 python-dotenv==1.0.0
+httpx==0.25.2

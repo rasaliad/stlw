@@ -18,6 +18,11 @@ class Settings(BaseSettings):
     FIREBIRD_USER: str = os.getenv("FIREBIRD_USER", "sysdba")
     FIREBIRD_PASSWORD: str = os.getenv("FIREBIRD_PASSWORD", "masterkey")
     
+    # SAP-STL API Configuration
+    SAP_STL_URL: str = os.getenv("SAP_STL_URL", "http://192.168.160.254:49568/b1s/v1")
+    SAP_STL_USERNAME: str = os.getenv("SAP_STL_USERNAME", "STLUser")
+    SAP_STL_PASSWORD: str = os.getenv("SAP_STL_PASSWORD", "7a6T9IVeUdf5bvRIv")
+    
     @property
     def firebird_url(self) -> str:
         return f"firebird://{self.FIREBIRD_USER}:{self.FIREBIRD_PASSWORD}@{self.FIREBIRD_HOST}:{self.FIREBIRD_PORT}/{self.FIREBIRD_DATABASE}"
