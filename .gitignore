@@ -1,0 +1,62 @@
+# Environment variables
+.env
+.env.local
+.env.production
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Next.js
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Docker volumes
+postgres_data/
+mysql_data/
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Generated files
+generate_password.py
+generate_admin_user.py
+custom_password.py
+
+# Database files
+*.fdb
+*.FDB
+*.gdb
+*.GDB
