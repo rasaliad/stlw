@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     FIREBIRD_PASSWORD: str = os.getenv("FIREBIRD_PASSWORD", "masterkey")
     
     # SAP-STL API Configuration
-    SAP_STL_URL: str = os.getenv("SAP_STL_URL", "http://192.168.160.254:49568/b1s/v1")
+    SAP_STL_URL: str = os.getenv("SAP_STL_URL", "http://192.168.160.254:49568")
     SAP_STL_USERNAME: str = os.getenv("SAP_STL_USERNAME", "STLUser")
     SAP_STL_PASSWORD: str = os.getenv("SAP_STL_PASSWORD", "7a6T9IVeUdf5bvRIv")
     

@@ -1,0 +1,975 @@
+URL: http://192.168.160.254:49568
+Usuario: STLUser
+Clave: 7a6T9IVeUdf5bvRIv
+
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "IntegracionSAP-STL",
+    "version": "1.0"
+  },
+  "paths": {
+    "/Auth/Login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseAuth"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseAuth"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseAuth"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MasterData/Items": {
+      "get": {
+        "tags": [
+          "MasterData"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemSTL"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemSTL"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemSTL"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MasterData/Items/{itemCode}": {
+      "get": {
+        "tags": [
+          "MasterData"
+        ],
+        "parameters": [
+          {
+            "name": "itemCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemSTL"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemSTL"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemSTL"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Transaction/Orders": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "parameters": [
+          {
+            "name": "tipoDespacho",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DispatchSTL"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DispatchSTL"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DispatchSTL"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Transaction/Orders/{tipoDespacho}/{docEntry}": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "parameters": [
+          {
+            "name": "tipoDespacho",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "docEntry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DispatchSTL"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DispatchSTL"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DispatchSTL"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Transaction/DeliveryNotes": {
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DispatchSTL"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DispatchSTL"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DispatchSTL"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Transaction/ProcurementOrders": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "parameters": [
+          {
+            "name": "tipoRecepcion",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoodsReceiptSTL"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoodsReceiptSTL"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoodsReceiptSTL"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Transaction/ProcurementOrders/{tipoRecepcion}/{docEntry}": {
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "parameters": [
+          {
+            "name": "tipoRecepcion",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "docEntry",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoodsReceiptSTL"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoodsReceiptSTL"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoodsReceiptSTL"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Transaction/GoodsReceipt": {
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsReceiptSTL"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsReceiptSTL"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsReceiptSTL"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Transaction"
+        ],
+        "parameters": [
+          {
+            "name": "tipoRecepcion",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoodsReceiptSTL"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoodsReceiptSTL"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoodsReceiptSTL"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Transaction/GoodsReturn": {
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsReceiptSTL"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsReceiptSTL"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoodsReceiptSTL"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoodsReceiptSTL"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoodsReceiptSTL"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GoodsReceiptSTL"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Transaction/InventoryGoodsIssue": {
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryGoodsIssueSTL"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryGoodsIssueSTL"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryGoodsIssueSTL"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Transaction/InventoryGoodsReceipt": {
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryGoodsReceiptSTL"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryGoodsReceiptSTL"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryGoodsReceiptSTL"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Transaction/InventoryTransfer": {
+      "post": {
+        "tags": [
+          "Transaction"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryTransfer"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryTransfer"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/InventoryTransfer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DispatchLineSTL": {
+        "type": "object",
+        "properties": {
+          "codigoProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "almacen": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidadUMB": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "lineNum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "uoMCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "uoMEntry": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DispatchSTL": {
+        "type": "object",
+        "properties": {
+          "numeroDespacho": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "numeroBusqueda": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaPicking": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "fechaCarga": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoDespacho": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DispatchLineSTL"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GoodsReceiptLineSTL": {
+        "type": "object",
+        "properties": {
+          "codigoProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombreFamilia": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidad": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "unidadDeMedidaUMB": {
+            "type": "string",
+            "nullable": true
+          },
+          "lineNum": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "uoMEntry": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "uoMCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "diasVencimiento": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GoodsReceiptSTL": {
+        "type": "object",
+        "properties": {
+          "numeroDocumento": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "numeroBusqueda": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tipoRecepcion": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "codigoSuplidor": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreSuplidor": {
+            "type": "string",
+            "nullable": true
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GoodsReceiptLineSTL"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventoryGoodsIssueLineSTL": {
+        "type": "object",
+        "properties": {
+          "codigoProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidadUMB": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventoryGoodsIssueSTL": {
+        "type": "object",
+        "properties": {
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tipoDespacho": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryGoodsIssueLineSTL"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventoryGoodsReceiptLineSTL": {
+        "type": "object",
+        "properties": {
+          "codigoProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidadUMB": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventoryGoodsReceiptSTL": {
+        "type": "object",
+        "properties": {
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tipoRecepcion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryGoodsReceiptLineSTL"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventoryTransfer": {
+        "type": "object",
+        "properties": {
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tipoDespacho": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lines": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InventoryTransferLine"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "InventoryTransferLine": {
+        "type": "object",
+        "properties": {
+          "codigoProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidadUMB": {
+            "type": "number",
+            "format": "double"
+          },
+          "almacen": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ItemSTL": {
+        "type": "object",
+        "properties": {
+          "codigoProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoProductoERP": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombreFamilia": {
+            "type": "string",
+            "nullable": true
+          },
+          "diasVencimiento": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "codigoUMB": {
+            "type": "string",
+            "nullable": true
+          },
+          "descripcionUMB": {
+            "type": "string",
+            "nullable": true
+          },
+          "codigoFormaEmbalaje": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreFormaEmbalaje": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResponseAuth": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "nullable": true
+          },
+          "expirationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserLoginRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ]
+}
