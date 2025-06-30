@@ -9,5 +9,6 @@ class User:
     email: str = ""
     hashed_password: str = ""
     is_active: bool = True
+    role: str = "OPERADOR"
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None

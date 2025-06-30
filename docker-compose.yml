@@ -13,6 +13,10 @@ services:
       - FIREBIRD_DATABASE=C:\\App\\STL\\Datos\\DATOS_STL.FDB
       - FIREBIRD_USER=${FIREBIRD_USER:-sysdba}
       - FIREBIRD_PASSWORD=${FIREBIRD_PASSWORD:-masterkey}
+      - SAP_STL_URL=${SAP_STL_URL:-https://dependent-vehicle-victory-por.trycloudflare.com}
+      - SAP_STL_USERNAME=${SAP_STL_USERNAME:-STLUser}
+      - SAP_STL_PASSWORD=${SAP_STL_PASSWORD:-7a6T9IVeUdf5bvRIv}
+      - USE_MOCK_SAP_DATA=${USE_MOCK_SAP_DATA:-false}
     volumes:
       - ./backend/app:/app/app
     depends_on:

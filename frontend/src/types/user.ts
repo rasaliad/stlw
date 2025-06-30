@@ -3,6 +3,7 @@ export interface User {
   username: string
   email: string
   is_active: boolean
+  role: string
   created_at?: string
   updated_at?: string
 }
@@ -22,10 +23,12 @@ export interface UserCreate {
   email: string
   password: string
   is_active?: boolean
+  role?: string
 }
 
 export interface UserUpdate {
   username?: string
   email?: string
   is_active?: boolean
+  role?: string
 }

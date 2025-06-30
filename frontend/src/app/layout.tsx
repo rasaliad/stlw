@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-gradient-cream min-h-screen`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -103,16 +103,16 @@ class SAPSTLSyncService:
         stats = {'inserted': 0, 'updated': 0, 'errors': 0}
         
         try:
-            config = await self.get_sync_config('ITEMS')
-            if not config or not config['sync_enabled']:
-                return stats
-            
             # Obtener datos desde API STL
+            logger.info("Iniciando sincronización de items")
             items = await sap_stl_client.get_items()
             if not items:
+                logger.warning("No se obtuvieron items de la API")
                 return stats
             
-            async with self.get_db_connection() as conn:
+            logger.info(f"Obtenidos {len(items)} items de la API")
+            
+            with self.db.get_connection() as conn:
                 cursor = conn.cursor()
                 
                 for item in items:
@@ -157,23 +157,16 @@ class SAPSTLSyncService:
                             ))
                             stats['inserted'] += 1
                         
-                        await self.log_sync_operation('ITEMS', item.codigoProducto or 'NULL', 'FETCH', 'SUCCESS')
                         
                     except Exception as e:
                         logger.error(f"Error sincronizando item {item.codigoProducto}: {str(e)}")
-                        await self.log_sync_operation('ITEMS', item.codigoProducto or 'NULL', 'FETCH', 'ERROR', str(e))
                         stats['errors'] += 1
                 
                 conn.commit()
-            
-            await self.update_sync_config('ITEMS')
-            processing_time = int((datetime.now() - start_time).total_seconds() * 1000)
-            await self.log_sync_operation('ITEMS', 'BATCH', 'FETCH', 'SUCCESS', 
-                                        f"Procesados: {stats['inserted'] + stats['updated']}", processing_time)
+                logger.info(f"Sincronización completada. Insertados: {stats['inserted']}, Actualizados: {stats['updated']}, Errores: {stats['errors']}")
             
         except Exception as e:
-            logger.error(f"Error en sincronización de items: {str(e)}")
-            await self.log_sync_operation('ITEMS', 'BATCH', 'FETCH', 'ERROR', str(e))
+            logger.error(f"Error en sincronización de items: {str(e)}", exc_info=True)
             stats['errors'] += 1
         
         return stats
@@ -184,16 +177,16 @@ class SAPSTLSyncService:
         stats = {'inserted': 0, 'updated': 0, 'errors': 0}
         
         try:
-            config = await self.get_sync_config('DISPATCHES')
-            if not config or not config['sync_enabled']:
-                return stats
-            
             # Obtener datos desde API STL
+            logger.info("Iniciando sincronización de despachos")
             dispatches = await sap_stl_client.get_orders(tipo_despacho)
             if not dispatches:
+                logger.warning("No se obtuvieron despachos de la API")
                 return stats
             
-            async with self.get_db_connection() as conn:
+            logger.info(f"Obtenidos {len(dispatches)} despachos de la API")
+            
+            with self.db.get_connection() as conn:
                 cursor = conn.cursor()
                 
                 for dispatch in dispatches:
@@ -280,16 +273,16 @@ class SAPSTLSyncService:
         stats = {'inserted': 0, 'updated': 0, 'errors': 0}
         
         try:
-            config = await self.get_sync_config('GOODS_RECEIPTS')
-            if not config or not config['sync_enabled']:
-                return stats
-            
             # Obtener datos desde API STL
+            logger.info("Iniciando sincronización de recepciones de mercancía")
             receipts = await sap_stl_client.get_goods_receipts(tipo_recepcion)
             if not receipts:
+                logger.warning("No se obtuvieron recepciones de la API")
                 return stats
             
-            async with self.get_db_connection() as conn:
+            logger.info(f"Obtenidas {len(receipts)} recepciones de la API")
+            
+            with self.db.get_connection() as conn:
                 cursor = conn.cursor()
                 
                 for receipt in receipts:

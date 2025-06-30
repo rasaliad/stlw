@@ -1,0 +1,41 @@
+-- ========================================
+-- SCRIPT PARA LIMPIAR DATOS SAP-STL
+-- ========================================
+-- ADVERTENCIA: Este script elimina TODOS los datos sincronizados desde SAP-STL
+-- Usar con precaución en ambientes de producción
+
+-- Limpiar líneas de recepciones
+DELETE FROM STL_GOODS_RECEIPT_LINES;
+
+-- Limpiar recepciones de mercancía
+DELETE FROM STL_GOODS_RECEIPTS;
+
+-- Limpiar líneas de despachos
+DELETE FROM STL_DISPATCH_LINES;
+
+-- Limpiar despachos
+DELETE FROM STL_DISPATCHES;
+
+-- Limpiar items
+DELETE FROM STL_ITEMS;
+
+-- Limpiar logs de sincronización (opcional)
+-- DELETE FROM STL_SYNC_LOG;
+
+-- Reiniciar generadores de ID (si es necesario)
+-- SET GENERATOR GEN_STL_ITEMS_ID TO 0;
+-- SET GENERATOR GEN_STL_DISPATCHES_ID TO 0;
+-- SET GENERATOR GEN_STL_DISPATCH_LINES_ID TO 0;
+-- SET GENERATOR GEN_STL_GOODS_RECEIPTS_ID TO 0;
+-- SET GENERATOR GEN_STL_GOODS_RECEIPT_LINES_ID TO 0;
+
+-- Confirmar limpieza
+SELECT 'STL_ITEMS' AS TABLA, COUNT(*) AS REGISTROS FROM STL_ITEMS
+UNION ALL
+SELECT 'STL_DISPATCHES', COUNT(*) FROM STL_DISPATCHES
+UNION ALL
+SELECT 'STL_DISPATCH_LINES', COUNT(*) FROM STL_DISPATCH_LINES
+UNION ALL
+SELECT 'STL_GOODS_RECEIPTS', COUNT(*) FROM STL_GOODS_RECEIPTS
+UNION ALL
+SELECT 'STL_GOODS_RECEIPT_LINES', COUNT(*) FROM STL_GOODS_RECEIPT_LINES;

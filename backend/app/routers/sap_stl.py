@@ -3,8 +3,9 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime, date
 import logging
 
-from app.services.sap_stl_sync_service import stl_sync_service
+from app.services.optimized_sync_service import optimized_sync_service
 from app.services.sap_stl_client import sap_stl_client
+from app.services.background_sync_service import background_sync_service
 from app.models.sap_stl_models import (
     DispatchSTL, GoodsReceiptSTL, InventoryGoodsIssueSTL, 
     InventoryGoodsReceiptSTL, InventoryTransfer
@@ -17,11 +18,176 @@ router = APIRouter(prefix="/api/sap-stl", tags=["SAP-STL Integration"])
 db = FirebirdConnection()
 
 
+@router.post("/sync-now")
+async def sync_now():
+    """Sincronización inmediata con resultados"""
+    try:
+        # Sincronizar todas las entidades con optimización
+        items_results = await optimized_sync_service.sync_items_optimized()
+        dispatches_results = await optimized_sync_service.sync_dispatches_optimized()
+        receipts_results = await optimized_sync_service.sync_receipts_optimized()
+        
+        # Contar datos en BD
+        with db.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT COUNT(*) FROM STL_ITEMS")
+            total_items = cursor.fetchone()[0]
+            
+            cursor.execute("SELECT COUNT(*) FROM STL_DISPATCHES")
+            total_dispatches = cursor.fetchone()[0]
+            
+            cursor.execute("SELECT COUNT(*) FROM STL_GOODS_RECEIPTS")
+            total_receipts = cursor.fetchone()[0]
+            
+        return {
+            "sync_results": {
+                "items": items_results,
+                "dispatches": dispatches_results,
+                "goods_receipts": receipts_results
+            },
+            "totals_in_db": {
+                "items": total_items,
+                "dispatches": total_dispatches,
+                "goods_receipts": total_receipts
+            },
+            "api_url": sap_stl_client.base_url,
+            "using_mock_data": sap_stl_client.use_mock_data
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@router.post("/config/mock-mode")
+async def toggle_mock_mode(enabled: bool):
+    """Activa o desactiva el modo simulación"""
+    try:
+        sap_stl_client.use_mock_data = enabled
+        return {
+            "message": f"Modo simulación {'activado' if enabled else 'desactivado'}",
+            "mock_mode_enabled": enabled,
+            "api_url": sap_stl_client.base_url
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@router.get("/config/status")
+async def get_config_status():
+    """Obtiene el estado actual de la configuración"""
+    try:
+        return {
+            "mock_mode_enabled": sap_stl_client.use_mock_data,
+            "api_url": sap_stl_client.base_url,
+            "username": sap_stl_client.username,
+            "has_token": bool(sap_stl_client.token)
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@router.delete("/data/clean")
+async def clean_data(entity_type: Optional[str] = None):
+    """Limpia datos SAP-STL de la base de datos
+    
+    Args:
+        entity_type: Tipo específico para limpiar (items, dispatches, goods_receipts)
+                    Si no se especifica, limpia TODO
+    """
+    try:
+        with db.get_connection() as conn:
+            cursor = conn.cursor()
+            counts_before = {}
+            counts_after = {}
+            
+            # Obtener conteos antes
+            cursor.execute("SELECT COUNT(*) FROM STL_ITEMS")
+            counts_before['items'] = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM STL_DISPATCHES")
+            counts_before['dispatches'] = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM STL_GOODS_RECEIPTS")
+            counts_before['goods_receipts'] = cursor.fetchone()[0]
+            
+            if entity_type == "items":
+                cursor.execute("DELETE FROM STL_ITEMS")
+            elif entity_type == "dispatches":
+                cursor.execute("DELETE FROM STL_DISPATCH_LINES")
+                cursor.execute("DELETE FROM STL_DISPATCHES")
+            elif entity_type == "goods_receipts":
+                cursor.execute("DELETE FROM STL_GOODS_RECEIPT_LINES")
+                cursor.execute("DELETE FROM STL_GOODS_RECEIPTS")
+            else:
+                # Limpiar TODO
+                cursor.execute("DELETE FROM STL_GOODS_RECEIPT_LINES")
+                cursor.execute("DELETE FROM STL_GOODS_RECEIPTS")
+                cursor.execute("DELETE FROM STL_DISPATCH_LINES")
+                cursor.execute("DELETE FROM STL_DISPATCHES")
+                cursor.execute("DELETE FROM STL_ITEMS")
+            
+            conn.commit()
+            
+            # Obtener conteos después
+            cursor.execute("SELECT COUNT(*) FROM STL_ITEMS")
+            counts_after['items'] = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM STL_DISPATCHES")
+            counts_after['dispatches'] = cursor.fetchone()[0]
+            cursor.execute("SELECT COUNT(*) FROM STL_GOODS_RECEIPTS")
+            counts_after['goods_receipts'] = cursor.fetchone()[0]
+            
+            return {
+                "message": f"Datos {'de ' + entity_type if entity_type else 'todos'} limpiados exitosamente",
+                "deleted": {
+                    "items": counts_before['items'] - counts_after['items'],
+                    "dispatches": counts_before['dispatches'] - counts_after['dispatches'],
+                    "goods_receipts": counts_before['goods_receipts'] - counts_after['goods_receipts']
+                },
+                "remaining": counts_after
+            }
+            
+    except Exception as e:
+        logger.error(f"Error limpiando datos: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error limpiando datos: {str(e)}")
+
+
+@router.get("/test-connection")
+async def test_connection():
+    """Test básico de conectividad con API SAP-STL"""
+    try:
+        # Probar login
+        success = await sap_stl_client.login()
+        
+        if success:
+            # Intentar obtener items
+            items = await sap_stl_client.get_items()
+            return {
+                "status": "success",
+                "message": "Conectado a API SAP-STL",
+                "token_obtained": bool(sap_stl_client.token),
+                "items_retrieved": len(items) if items else 0,
+                "base_url": sap_stl_client.base_url
+            }
+        else:
+            return {
+                "status": "error",
+                "message": "Error de autenticación",
+                "base_url": sap_stl_client.base_url
+            }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e),
+            "base_url": sap_stl_client.base_url
+        }
+
+
 @router.post("/sync/all")
 async def sync_all_entities(background_tasks: BackgroundTasks):
     """Inicia sincronización de todas las entidades SAP-STL"""
     try:
-        background_tasks.add_task(stl_sync_service.sync_all_entities)
+        async def sync_all():
+            await optimized_sync_service.sync_items_optimized()
+            await optimized_sync_service.sync_dispatches_optimized()
+            await optimized_sync_service.sync_receipts_optimized()
+        background_tasks.add_task(sync_all)
         return {"message": "Sincronización iniciada en segundo plano"}
     except Exception as e:
         logger.error(f"Error iniciando sincronización: {str(e)}")
@@ -33,11 +199,11 @@ async def sync_entity(entity_type: str, background_tasks: BackgroundTasks, tipo_
     """Sincroniza una entidad específica"""
     try:
         if entity_type == "items":
-            background_tasks.add_task(stl_sync_service.sync_items)
+            background_tasks.add_task(optimized_sync_service.sync_items_optimized)
         elif entity_type == "dispatches":
-            background_tasks.add_task(stl_sync_service.sync_dispatches, tipo_filtro)
+            background_tasks.add_task(optimized_sync_service.sync_dispatches_optimized, tipo_filtro)
         elif entity_type == "goods_receipts":
-            background_tasks.add_task(stl_sync_service.sync_goods_receipts, tipo_filtro)
+            background_tasks.add_task(optimized_sync_service.sync_receipts_optimized, tipo_filtro)
         else:
             raise HTTPException(status_code=400, detail=f"Tipo de entidad no válido: {entity_type}")
         
@@ -55,6 +221,17 @@ async def get_sync_status():
         return status
     except Exception as e:
         logger.error(f"Error obteniendo estado de sync: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error obteniendo estado: {str(e)}")
+
+
+@router.get("/sync/background/status")
+async def get_background_sync_status():
+    """Obtiene el estado de sincronización automática en background"""
+    try:
+        status = background_sync_service.get_job_status()
+        return status
+    except Exception as e:
+        logger.error(f"Error obteniendo estado de background sync: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error obteniendo estado: {str(e)}")
 
 

@@ -44,6 +44,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
         username=user.username,
         email=user.email,
         is_active=user.is_active,
+        role=user.role or 'OPERADOR',
         created_at=user.created_at,
         updated_at=user.updated_at
     )

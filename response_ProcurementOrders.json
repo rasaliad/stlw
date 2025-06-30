@@ -1,0 +1,518 @@
+[
+  {
+    "numeroDocumento": 16,
+    "numeroBusqueda": 8,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00013",
+    "nombreSuplidor": "ALL STAR FOODS SRL",
+    "lines": [
+      {
+        "codigoProducto": "1068",
+        "nombreProducto": "SHORTLOIN PRIME",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 16,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1066",
+        "nombreProducto": "FLAP MEAT PRIME PORCIONADO 12 OZ",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 171,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1065",
+        "nombreProducto": "PORK LOIN CHOP SEASALT&PEPPER NIMAN RNAC",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 100,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "106",
+        "nombreProducto": "KING CRAB LEG 16/20",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 160,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 3,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1059",
+        "nombreProducto": "INSIDE ROUND CAB IBP",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 10,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 4,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 18,
+    "numeroBusqueda": 10,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00009",
+    "nombreSuplidor": "AGUA EL EDEN",
+    "lines": [
+      {
+        "codigoProducto": "1068",
+        "nombreProducto": "SHORTLOIN PRIME",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 6,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1065",
+        "nombreProducto": "PORK LOIN CHOP SEASALT&PEPPER NIMAN RNAC",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 100,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 35,
+    "numeroBusqueda": 21,
+    "fecha": "2025-06-03T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00040",
+    "nombreSuplidor": "ASOC. PADRES Y TUTORES DEL COL. SAINT JO",
+    "lines": [
+      {
+        "codigoProducto": "1078",
+        "nombreProducto": "NUEZ MOSCADA ENTERA 16OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 0,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "108",
+        "nombreProducto": "HAMBURGUESAS CAB 8 OZ",
+        "codigoFamilia": 109,
+        "nombreFamilia": "RES CAB",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1089",
+        "nombreProducto": "JIBA DE RES PREMIUM LOCAL",
+        "codigoFamilia": 107,
+        "nombreFamilia": "RES LOCAL",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "109",
+        "nombreProducto": "PULPO 4 UP",
+        "codigoFamilia": 122,
+        "nombreFamilia": "PESCADOS Y MARISCOS",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 3,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1090",
+        "nombreProducto": "T-BONE CHOICE PORCIONADO",
+        "codigoFamilia": 106,
+        "nombreFamilia": "RES CHOICE PORCIONADA",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 4,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1091",
+        "nombreProducto": "HAMBURGUESA HIGH CHOICE 8 OZ",
+        "codigoFamilia": 113,
+        "nombreFamilia": "RES CHOICE",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 5,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1093",
+        "nombreProducto": "FLAP MEAT CHOICE PORCIONADO",
+        "codigoFamilia": 106,
+        "nombreFamilia": "RES CHOICE PORCIONADA",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 6,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1094",
+        "nombreProducto": "RIBEYE CHOICE PORCIONADO 16 OZ",
+        "codigoFamilia": 106,
+        "nombreFamilia": "RES CHOICE PORCIONADA",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 7,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1104",
+        "nombreProducto": "TOBILLOS DE RES LOCAL",
+        "codigoFamilia": 107,
+        "nombreFamilia": "RES LOCAL",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 8,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1107",
+        "nombreProducto": "ALAS DE PAVO",
+        "codigoFamilia": 100,
+        "nombreFamilia": "AVES CONGELADAS",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 9,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "111",
+        "nombreProducto": "COULOTTE CHOICE",
+        "codigoFamilia": 113,
+        "nombreFamilia": "RES CHOICE",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 10,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1114",
+        "nombreProducto": "SANGRIA ISLAND OASIS",
+        "codigoFamilia": 124,
+        "nombreFamilia": "JUGOS",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 11,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1117",
+        "nombreProducto": "FILETE DE RES ANGUS",
+        "codigoFamilia": 114,
+        "nombreFamilia": "RES GENERICA",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 12,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 61,
+    "numeroBusqueda": 36,
+    "fecha": "2025-06-16T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00679",
+    "nombreSuplidor": "QUIRCH FOODS",
+    "lines": [
+      {
+        "codigoProducto": "1545",
+        "nombreProducto": "BRISKET CHOICE",
+        "codigoFamilia": 113,
+        "nombreFamilia": "RES CHOICE",
+        "cantidad": 2000,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "383",
+        "nombreProducto": "CHULETA DE CERDO FRESCA 22 UP",
+        "codigoFamilia": 103,
+        "nombreFamilia": "CERDO CONGELADO",
+        "cantidad": 2000,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 65,
+    "numeroBusqueda": 38,
+    "fecha": "2025-06-18T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00009",
+    "nombreSuplidor": "AGUA EL EDEN",
+    "lines": [
+      {
+        "codigoProducto": "1022",
+        "nombreProducto": "ROTI CON HUESO LOCAL",
+        "codigoFamilia": 107,
+        "nombreFamilia": "RES LOCAL",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1019",
+        "nombreProducto": "FLAP MEAT CAB PRIME PORCIONADO",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 600,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1018",
+        "nombreProducto": "FLAP MEAT PRIME PORCIONADO",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 700,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1017",
+        "nombreProducto": "SALMON AHUMADO PANAMEI 24X4OZ",
+        "codigoFamilia": 122,
+        "nombreFamilia": "PESCADOS Y MARISCOS",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 3,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1016",
+        "nombreProducto": "SALMON AHUMADO PANAMEI 20X8OZ",
+        "codigoFamilia": 122,
+        "nombreFamilia": "PESCADOS Y MARISCOS",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 4,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1015",
+        "nombreProducto": "ONION FLAKES 14OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 5,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1014",
+        "nombreProducto": "CANELA POLVO 16OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 6,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1013",
+        "nombreProducto": "CURCUMA MOLIDA 16OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 7,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 64,
+    "numeroBusqueda": 37,
+    "fecha": "2025-06-18T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00010",
+    "nombreSuplidor": "ALEJANDRO ARRINDELL MERCEDES",
+    "lines": [
+      {
+        "codigoProducto": "1022",
+        "nombreProducto": "ROTI CON HUESO LOCAL",
+        "codigoFamilia": 107,
+        "nombreFamilia": "RES LOCAL",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1019",
+        "nombreProducto": "FLAP MEAT CAB PRIME PORCIONADO",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 600,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1018",
+        "nombreProducto": "FLAP MEAT PRIME PORCIONADO",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 700,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1017",
+        "nombreProducto": "SALMON AHUMADO PANAMEI 24X4OZ",
+        "codigoFamilia": 122,
+        "nombreFamilia": "PESCADOS Y MARISCOS",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 3,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1016",
+        "nombreProducto": "SALMON AHUMADO PANAMEI 20X8OZ",
+        "codigoFamilia": 122,
+        "nombreFamilia": "PESCADOS Y MARISCOS",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 4,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1015",
+        "nombreProducto": "ONION FLAKES 14OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 5,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1014",
+        "nombreProducto": "CANELA POLVO 16OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 6,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1013",
+        "nombreProducto": "CURCUMA MOLIDA 16OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 500,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 7,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      }
+    ]
+  }
+]

@@ -9,6 +9,7 @@ from app.models.sap_stl_models import (
     GoodsReceiptSTL, InventoryGoodsIssueSTL, InventoryGoodsReceiptSTL, 
     InventoryTransfer
 )
+from app.services.mock_sap_stl_service import mock_sap_stl_service
 
 logger = logging.getLogger(__name__)
 
@@ -21,10 +22,15 @@ class SAPSTLClient:
         self.token: Optional[str] = None
         self.token_expiry: Optional[datetime] = None
         self.client = httpx.AsyncClient(timeout=30.0)
+        
+        # Configuración para modo simulación
+        self.use_mock_data = getattr(settings, 'USE_MOCK_SAP_DATA', False)
     
     async def login(self) -> bool:
         """Autenticación con la API STL"""
         try:
+            logger.info(f"Intentando login en {self.base_url}/Auth/Login con usuario: {self.username}")
+            
             login_data = UserLoginRequest(
                 name=self.username,
                 password=self.password
@@ -36,18 +42,25 @@ class SAPSTLClient:
                 headers={"Content-Type": "application/json"}
             )
             
+            logger.info(f"Respuesta login: Status {response.status_code}")
+            
             if response.status_code == 200:
-                auth_response = ResponseAuth(**response.json())
+                response_data = response.json()
+                logger.info(f"Datos de respuesta login: {response_data}")
+                
+                auth_response = ResponseAuth(**response_data)
                 self.token = auth_response.token
                 self.token_expiry = auth_response.expirationDate
-                logger.info("Login exitoso a API SAP-STL")
+                
+                logger.info(f"Login exitoso. Token: {self.token[:20] if self.token else 'None'}...")
+                logger.info(f"Token expira: {self.token_expiry}")
                 return True
             else:
                 logger.error(f"Error en login SAP-STL: {response.status_code} - {response.text}")
                 return False
                 
         except Exception as e:
-            logger.error(f"Excepción en login SAP-STL: {str(e)}")
+            logger.error(f"Excepción en login SAP-STL: {str(e)}", exc_info=True)
             return False
     
     def _get_headers(self) -> dict:
@@ -62,13 +75,30 @@ class SAPSTLClient:
     
     async def _ensure_authenticated(self) -> bool:
         """Asegura que tenemos un token válido"""
-        if not self.token or (self.token_expiry and datetime.now() >= self.token_expiry):
+        if not self.token:
             return await self.login()
+        
+        if self.token_expiry:
+            # Asegurarse de que ambas fechas estén en el mismo formato
+            now = datetime.now()
+            if self.token_expiry.tzinfo is not None:
+                # Si token_expiry tiene timezone, convertir now a UTC
+                from datetime import timezone
+                now = now.replace(tzinfo=timezone.utc)
+            elif now.tzinfo is not None:
+                # Si now tiene timezone pero token_expiry no, quitar timezone de now
+                now = now.replace(tzinfo=None)
+            
+            if now >= self.token_expiry:
+                return await self.login()
+        
         return True
     
     async def _make_request(self, method: str, endpoint: str, **kwargs):
         """Realiza petición HTTP con manejo de autenticación"""
         try:
+            logger.info(f"Haciendo petición {method} a {endpoint}")
+            
             if not await self._ensure_authenticated():
                 logger.error("No se pudo autenticar con API SAP-STL")
                 return None
@@ -79,7 +109,10 @@ class SAPSTLClient:
             kwargs['headers'] = headers
             
             url = f"{self.base_url}/{endpoint.lstrip('/')}"
+            logger.info(f"URL completa: {url}")
+            
             response = await self.client.request(method, url, **kwargs)
+            logger.info(f"Respuesta: Status {response.status_code}")
             
             if response.status_code == 401:
                 # Token expirado, reautenticar
@@ -89,23 +122,40 @@ class SAPSTLClient:
                     headers = self._get_headers()
                     kwargs['headers'] = headers
                     response = await self.client.request(method, url, **kwargs)
+                    logger.info(f"Respuesta después de reauth: Status {response.status_code}")
                 else:
                     return None
             
             if response.status_code in [200, 201]:
-                return response.json() if response.content else {}
+                content = response.json() if response.content else {}
+                logger.info(f"Contenido recibido: {type(content)} - {len(content) if isinstance(content, list) else 'No es lista'}")
+                return content
             else:
                 logger.error(f"Error en API SAP-STL: {response.status_code} - {response.text}")
                 return None
                 
         except Exception as e:
-            logger.error(f"Excepción en petición SAP-STL: {str(e)}")
+            logger.error(f"Excepción en petición SAP-STL: {str(e)}", exc_info=True)
             return None
     
     # Endpoints de MasterData
     async def get_items(self) -> Optional[List[ItemSTL]]:
         """Obtiene todos los artículos"""
+        if self.use_mock_data:
+            logger.info("Usando datos simulados para items")
+            mock_data = mock_sap_stl_service.get_mock_items()
+            return [ItemSTL(**item) for item in mock_data]
+        
+        logger.info(f"Iniciando get_items desde {self.base_url}/MasterData/Items")
         data = await self._make_request("GET", "/MasterData/Items")
+        
+        if data:
+            logger.info(f"Items recibidos: {len(data) if isinstance(data, list) else 'No es lista'}")
+            if isinstance(data, list) and data:
+                logger.info(f"Primer item: {data[0]}")
+        else:
+            logger.warning("No se recibieron datos de items")
+        
         if data and isinstance(data, list):
             return [ItemSTL(**item) for item in data]
         return None
@@ -120,6 +170,14 @@ class SAPSTLClient:
     # Endpoints de Transaction
     async def get_orders(self, tipo_despacho: Optional[int] = None) -> Optional[List[DispatchSTL]]:
         """Obtiene órdenes/despachos"""
+        if self.use_mock_data:
+            logger.info("Usando datos simulados para órdenes/despachos")
+            mock_data = mock_sap_stl_service.get_mock_orders()
+            # Filtrar por tipo de despacho si se especifica
+            if tipo_despacho is not None:
+                mock_data = [order for order in mock_data if order.get('tipoDespacho') == tipo_despacho]
+            return [DispatchSTL(**dispatch) for dispatch in mock_data]
+        
         endpoint = "/Transaction/Orders"
         if tipo_despacho is not None:
             endpoint += f"?tipoDespacho={tipo_despacho}"
@@ -143,6 +201,14 @@ class SAPSTLClient:
     
     async def get_procurement_orders(self, tipo_recepcion: Optional[int] = None) -> Optional[List[GoodsReceiptSTL]]:
         """Obtiene órdenes de compra"""
+        if self.use_mock_data:
+            logger.info("Usando datos simulados para órdenes de compra")
+            mock_data = mock_sap_stl_service.get_mock_procurement_orders()
+            # Filtrar por tipo de recepción si se especifica
+            if tipo_recepcion is not None:
+                mock_data = [order for order in mock_data if order.get('tipoRecepcion') == tipo_recepcion]
+            return [GoodsReceiptSTL(**receipt) for receipt in mock_data]
+        
         endpoint = "/Transaction/ProcurementOrders"
         if tipo_recepcion is not None:
             endpoint += f"?tipoRecepcion={tipo_recepcion}"
@@ -161,6 +227,14 @@ class SAPSTLClient:
     
     async def get_goods_receipts(self, tipo_recepcion: Optional[int] = None) -> Optional[List[GoodsReceiptSTL]]:
         """Obtiene recepciones de mercancía"""
+        if self.use_mock_data:
+            logger.info("Usando datos simulados para recepciones de mercancía")
+            mock_data = mock_sap_stl_service.get_mock_goods_receipts()
+            # Filtrar por tipo de recepción si se especifica
+            if tipo_recepcion is not None:
+                mock_data = [receipt for receipt in mock_data if receipt.get('tipoRecepcion') == tipo_recepcion]
+            return [GoodsReceiptSTL(**receipt) for receipt in mock_data]
+        
         endpoint = "/Transaction/GoodsReceipt"
         if tipo_recepcion is not None:
             endpoint += f"?tipoRecepcion={tipo_recepcion}"

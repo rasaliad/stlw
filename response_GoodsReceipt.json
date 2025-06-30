@@ -1,0 +1,924 @@
+[
+  {
+    "numeroDocumento": 4,
+    "numeroBusqueda": 1,
+    "fecha": "2025-05-06T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00001",
+    "nombreSuplidor": "CONGELADOS INTERNACIONALES CI",
+    "lines": [
+      {
+        "codigoProducto": "1008",
+        "nombreProducto": "NUEZ MOSCADA MOLIDA 16OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 0,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1004",
+        "nombreProducto": "OREGANO ENTERO 5.5 OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 1,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 12,
+    "numeroBusqueda": 3,
+    "fecha": "2025-05-13T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00020",
+    "nombreSuplidor": "AMACA DISTRIBUIDORES",
+    "lines": [
+      {
+        "codigoProducto": "1047",
+        "nombreProducto": "STRIPLOIN CAB PRIME PORCIONADO 16 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 400,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1048",
+        "nombreProducto": "CHURRASCO CHOICE PORCIONADO 10 OZ",
+        "codigoFamilia": 106,
+        "nombreFamilia": "RES CHOICE PORCIONADA",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "105",
+        "nombreProducto": "HIGADO DE RES IMPORTADO",
+        "codigoFamilia": 114,
+        "nombreFamilia": "RES GENERICA",
+        "cantidad": 12,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1051",
+        "nombreProducto": "STRIPLOIN C/HUESO CAB PRIME",
+        "codigoFamilia": 111,
+        "nombreFamilia": "RES CAB PRIME",
+        "cantidad": 12,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 3,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1052",
+        "nombreProducto": "MINI RNDCHEESE RAV12X24OZROSINA 4890023A",
+        "codigoFamilia": 127,
+        "nombreFamilia": "CONGELADOS",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 4,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1059",
+        "nombreProducto": "INSIDE ROUND CAB IBP",
+        "codigoFamilia": 109,
+        "nombreFamilia": "RES CAB",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 5,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "106",
+        "nombreProducto": "KING CRAB LEG 16/20",
+        "codigoFamilia": 122,
+        "nombreFamilia": "PESCADOS Y MARISCOS",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 6,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1065",
+        "nombreProducto": "PORK LOIN CHOP SEASALT&PEPPER NIMAN RNAC",
+        "codigoFamilia": 103,
+        "nombreFamilia": "CERDO CONGELADO",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 7,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1066",
+        "nombreProducto": "FLAP MEAT PRIME PORCIONADO 12 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 8,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1068",
+        "nombreProducto": "SHORTLOIN PRIME",
+        "codigoFamilia": 117,
+        "nombreFamilia": "RES PRIME",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 9,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1069",
+        "nombreProducto": "PORTERHOUSE T/BONE PRIME PORCIONADO",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 10,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1070",
+        "nombreProducto": "FILETE DE RES CAB PRIME PORCIONADO",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 11,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1071",
+        "nombreProducto": "BRISKET PRIME",
+        "codigoFamilia": 117,
+        "nombreFamilia": "RES PRIME",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 12,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1075",
+        "nombreProducto": "HAMBURGUESA CAB 4 OZ 80/20",
+        "codigoFamilia": 109,
+        "nombreFamilia": "RES CAB",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 13,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1076",
+        "nombreProducto": "SEMILLAS HINOJO 14OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 14,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1078",
+        "nombreProducto": "NUEZ MOSCADA ENTERA 16OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 15,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 15,
+    "numeroBusqueda": 4,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 103,
+    "codigoSuplidor": "PV-00001",
+    "nombreSuplidor": "CONGELADOS INTERNACIONALES CI",
+    "lines": [
+      {
+        "codigoProducto": "1003",
+        "nombreProducto": "CEBOLLA EN POLVO BADIA 18OZ",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 10,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 0,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1004",
+        "nombreProducto": "OREGANO ENTERO 5.5 OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 10,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 1,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1005",
+        "nombreProducto": "OREGANO MOLIDO 12OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 200,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 2,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1007",
+        "nombreProducto": "HOJAS DE LAUREL 1.5OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 3,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1008",
+        "nombreProducto": "NUEZ MOSCADA MOLIDA 16OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 4,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 17,
+    "numeroBusqueda": 6,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 103,
+    "codigoSuplidor": "PV-00001",
+    "nombreSuplidor": "CONGELADOS INTERNACIONALES CI",
+    "lines": [
+      {
+        "codigoProducto": "1005",
+        "nombreProducto": "OREGANO MOLIDO 12OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 13,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 0,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 18,
+    "numeroBusqueda": 7,
+    "fecha": "2025-05-13T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00047",
+    "nombreSuplidor": "AZUL FRIO",
+    "lines": [
+      {
+        "codigoProducto": "1022",
+        "nombreProducto": "ROTI CON HUESO LOCAL",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 10,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 19,
+    "numeroBusqueda": 8,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 103,
+    "codigoSuplidor": "PV-00005",
+    "nombreSuplidor": "ADENIUM CENTRO DE JARDINERIA",
+    "lines": [
+      {
+        "codigoProducto": "1068",
+        "nombreProducto": "SHORTLOIN PRIME",
+        "codigoFamilia": 117,
+        "nombreFamilia": "RES PRIME",
+        "cantidad": 16,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1066",
+        "nombreProducto": "FLAP MEAT PRIME PORCIONADO 12 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 200,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1065",
+        "nombreProducto": "PORK LOIN CHOP SEASALT&PEPPER NIMAN RNAC",
+        "codigoFamilia": 103,
+        "nombreFamilia": "CERDO CONGELADO",
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "106",
+        "nombreProducto": "KING CRAB LEG 16/20",
+        "codigoFamilia": 122,
+        "nombreFamilia": "PESCADOS Y MARISCOS",
+        "cantidad": 160,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 3,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1059",
+        "nombreProducto": "INSIDE ROUND CAB IBP",
+        "codigoFamilia": 109,
+        "nombreFamilia": "RES CAB",
+        "cantidad": 10,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 4,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 20,
+    "numeroBusqueda": 9,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 103,
+    "codigoSuplidor": "PV-00010",
+    "nombreSuplidor": "ALEJANDRO ARRINDELL MERCEDES",
+    "lines": [
+      {
+        "codigoProducto": "1068",
+        "nombreProducto": "SHORTLOIN PRIME",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 10,
+        "unidadDeMedidaUMB": "",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1066",
+        "nombreProducto": "FLAP MEAT PRIME PORCIONADO 12 OZ",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 171,
+        "unidadDeMedidaUMB": "",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1065",
+        "nombreProducto": "PORK LOIN CHOP SEASALT&PEPPER NIMAN RNAC",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 100,
+        "unidadDeMedidaUMB": "",
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "106",
+        "nombreProducto": "KING CRAB LEG 16/20",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 160,
+        "unidadDeMedidaUMB": "",
+        "lineNum": 3,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1059",
+        "nombreProducto": "INSIDE ROUND CAB IBP",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 10,
+        "unidadDeMedidaUMB": "",
+        "lineNum": 4,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 24,
+    "numeroBusqueda": 11,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 103,
+    "codigoSuplidor": "PV-00010",
+    "nombreSuplidor": "ALEJANDRO ARRINDELL MERCEDES",
+    "lines": [
+      {
+        "codigoProducto": "1068",
+        "nombreProducto": "SHORTLOIN PRIME",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 6,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 28,
+    "numeroBusqueda": 12,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00019",
+    "nombreSuplidor": "ALVAREZ & SANCHEZ S.A",
+    "lines": [
+      {
+        "codigoProducto": "1068",
+        "nombreProducto": "SHORTLOIN PRIME",
+        "codigoFamilia": 117,
+        "nombreFamilia": "RES PRIME",
+        "cantidad": 18,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1066",
+        "nombreProducto": "FLAP MEAT PRIME PORCIONADO 12 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 150,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1065",
+        "nombreProducto": "PORK LOIN CHOP SEASALT&PEPPER NIMAN RNAC",
+        "codigoFamilia": 103,
+        "nombreFamilia": "CERDO CONGELADO",
+        "cantidad": 102,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "106",
+        "nombreProducto": "KING CRAB LEG 16/20",
+        "codigoFamilia": 122,
+        "nombreFamilia": "PESCADOS Y MARISCOS",
+        "cantidad": 160,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 3,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1059",
+        "nombreProducto": "INSIDE ROUND CAB IBP",
+        "codigoFamilia": 109,
+        "nombreFamilia": "RES CAB",
+        "cantidad": 10,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 4,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 29,
+    "numeroBusqueda": 13,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00019",
+    "nombreSuplidor": "ALVAREZ & SANCHEZ S.A",
+    "lines": [
+      {
+        "codigoProducto": "1066",
+        "nombreProducto": "FLAP MEAT PRIME PORCIONADO 12 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 21,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 30,
+    "numeroBusqueda": 14,
+    "fecha": "2025-04-28T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00009",
+    "nombreSuplidor": "AGUA EL EDEN",
+    "lines": [
+      {
+        "codigoProducto": "1068",
+        "nombreProducto": "SHORTLOIN PRIME",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 10,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1066",
+        "nombreProducto": "FLAP MEAT PRIME PORCIONADO 12 OZ",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 181,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "106",
+        "nombreProducto": "KING CRAB LEG 16/20",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 160,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1059",
+        "nombreProducto": "INSIDE ROUND CAB IBP",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 10,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 3,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 33,
+    "numeroBusqueda": 15,
+    "fecha": "2025-06-09T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00602",
+    "nombreSuplidor": "ACB WAREHOUSE",
+    "lines": [
+      {
+        "codigoProducto": "1047",
+        "nombreProducto": "STRIPLOIN CAB PRIME PORCIONADO 16 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 29276.55,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "75",
+        "nombreProducto": "GOOSENECK CHOICE",
+        "codigoFamilia": 113,
+        "nombreFamilia": "RES CHOICE",
+        "cantidad": 5411.1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 35,
+    "numeroBusqueda": 16,
+    "fecha": "2025-06-11T00:00:00Z",
+    "tipoRecepcion": 103,
+    "codigoSuplidor": "PV-00007",
+    "nombreSuplidor": "AGROPECUARIA SANTO DOMINGO",
+    "lines": [
+      {
+        "codigoProducto": "1005",
+        "nombreProducto": "OREGANO MOLIDO 12OZ BADIA",
+        "codigoFamilia": 121,
+        "nombreFamilia": "ESPECIAS/ABARROTES",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "030",
+        "lineNum": 0,
+        "uoMEntry": 1,
+        "uoMCode": "Unidad",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 38,
+    "numeroBusqueda": 18,
+    "fecha": "2025-06-11T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00602",
+    "nombreSuplidor": "ACB WAREHOUSE",
+    "lines": [
+      {
+        "codigoProducto": "1047",
+        "nombreProducto": "STRIPLOIN CAB PRIME PORCIONADO 16 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 29276.55,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "75",
+        "nombreProducto": "GOOSENECK CHOICE",
+        "codigoFamilia": 113,
+        "nombreFamilia": "RES CHOICE",
+        "cantidad": 5411.1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 39,
+    "numeroBusqueda": 19,
+    "fecha": "2025-06-11T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00602",
+    "nombreSuplidor": "ACB WAREHOUSE",
+    "lines": [
+      {
+        "codigoProducto": "1047",
+        "nombreProducto": "STRIPLOIN CAB PRIME PORCIONADO 16 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 29276.55,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "75",
+        "nombreProducto": "GOOSENECK CHOICE",
+        "codigoFamilia": 113,
+        "nombreFamilia": "RES CHOICE",
+        "cantidad": 5411.1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 43,
+    "numeroBusqueda": 22,
+    "fecha": "2025-06-12T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00602",
+    "nombreSuplidor": "ACB WAREHOUSE",
+    "lines": [
+      {
+        "codigoProducto": "1047",
+        "nombreProducto": "STRIPLOIN CAB PRIME PORCIONADO 16 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 29853.26,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "75",
+        "nombreProducto": "GOOSENECK CHOICE",
+        "codigoFamilia": 113,
+        "nombreFamilia": "RES CHOICE",
+        "cantidad": 5411.1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 44,
+    "numeroBusqueda": 23,
+    "fecha": "2025-06-12T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00603",
+    "nombreSuplidor": "ADVANCE MARKETING LIMITED",
+    "lines": [
+      {
+        "codigoProducto": "1047",
+        "nombreProducto": "STRIPLOIN CAB PRIME PORCIONADO 16 OZ",
+        "codigoFamilia": 112,
+        "nombreFamilia": "RES CAB PRIME PORCIONADA",
+        "cantidad": 29853.26,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "75",
+        "nombreProducto": "GOOSENECK CHOICE",
+        "codigoFamilia": 113,
+        "nombreFamilia": "RES CHOICE",
+        "cantidad": 5411.1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 50,
+    "numeroBusqueda": 27,
+    "fecha": "2025-06-16T00:00:00Z",
+    "tipoRecepcion": 102,
+    "codigoSuplidor": "PV-00602",
+    "nombreSuplidor": "ACB WAREHOUSE",
+    "lines": [
+      {
+        "codigoProducto": "1036",
+        "nombreProducto": "CORNED BEEF BRISKET SLCD CAB #449228",
+        "codigoFamilia": 109,
+        "nombreFamilia": "RES CAB",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "1040",
+        "nombreProducto": "HAMBURGUESA WAGYU 10 OZ",
+        "codigoFamilia": 118,
+        "nombreFamilia": "RES WAGYU",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 1,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      },
+      {
+        "codigoProducto": "75",
+        "nombreProducto": "GOOSENECK CHOICE",
+        "codigoFamilia": null,
+        "nombreFamilia": null,
+        "cantidad": 1,
+        "unidadDeMedidaUMB": null,
+        "lineNum": 2,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  },
+  {
+    "numeroDocumento": 53,
+    "numeroBusqueda": 29,
+    "fecha": "2025-06-16T00:00:00Z",
+    "tipoRecepcion": 103,
+    "codigoSuplidor": "PV-00530",
+    "nombreSuplidor": "SUPLIDORA DE CARNES A&B SRL",
+    "lines": [
+      {
+        "codigoProducto": "1652",
+        "nombreProducto": "CARNE MOLIDA LOCAL",
+        "codigoFamilia": 107,
+        "nombreFamilia": "RES LOCAL",
+        "cantidad": 1,
+        "unidadDeMedidaUMB": "032",
+        "lineNum": 0,
+        "uoMEntry": 2,
+        "uoMCode": "Libra",
+        "diasVencimiento": null
+      }
+    ]
+  }
+]

@@ -1,0 +1,1915 @@
+{
+"openapi": "3.1.0",
+"info": {
+"title": "STL Backend API",
+"description": "API para sistema STL con Firebird",
+"version": "1.0.0"
+},
+"paths": {
+"/api/v1/auth/login": {
+"post": {
+"tags": [
+"authentication"
+],
+"summary": "Login",
+"operationId": "login_api_v1_auth_login_post",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/LoginRequest"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/Token"
+}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/auth/me": {
+"get": {
+"tags": [
+"authentication"
+],
+"summary": "Get Current User",
+"operationId": "get_current_user_api_v1_auth_me_get",
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UserResponse"
+}
+}
+}
+}
+},
+"security": [
+{
+"HTTPBearer": []
+}
+]
+}
+},
+"/api/v1/users/": {
+"post": {
+"tags": [
+"users"
+],
+"summary": "Create User",
+"operationId": "create_user_api_v1_users__post",
+"requestBody": {
+"required": true,
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UserCreate"
+}
+}
+}
+},
+"responses": {
+"201": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UserResponse"
+}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+},
+"get": {
+"tags": [
+"users"
+],
+"summary": "Get Users",
+"operationId": "get_users_api_v1_users__get",
+"security": [
+{
+"HTTPBearer": []
+}
+],
+"parameters": [
+{
+"name": "skip",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"minimum": 0,
+"default": 0,
+"title": "Skip"
+}
+},
+{
+"name": "limit",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"maximum": 1000,
+"minimum": 1,
+"default": 100,
+"title": "Limit"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/UserResponse"
+},
+"title": "Response Get Users Api V1 Users  Get"
+}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/v1/users/{user_id}": {
+"get": {
+"tags": [
+"users"
+],
+"summary": "Get User",
+"operationId": "get_user_api_v1_users__user_id__get",
+"security": [
+{
+"HTTPBearer": []
+}
+],
+"parameters": [
+{
+"name": "user_id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"title": "User Id"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UserResponse"
+}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+},
+"put": {
+"tags": [
+"users"
+],
+"summary": "Update User",
+"operationId": "update_user_api_v1_users__user_id__put",
+"security": [
+{
+"HTTPBearer": []
+}
+],
+"parameters": [
+{
+"name": "user_id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"title": "User Id"
+}
+}
+],
+"requestBody": {
+"required": true,
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UserUpdate"
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UserResponse"
+}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+},
+"delete": {
+"tags": [
+"users"
+],
+"summary": "Delete User",
+"operationId": "delete_user_api_v1_users__user_id__delete",
+"security": [
+{
+"HTTPBearer": []
+}
+],
+"parameters": [
+{
+"name": "user_id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"title": "User Id"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/sync-now": {
+"get": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Sync Now",
+"description": "Sincronización inmediata con resultados",
+"operationId": "sync_now_api_sap_stl_sync_now_get",
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/test-connection": {
+"get": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Test Connection",
+"description": "Test básico de conectividad con API SAP-STL",
+"operationId": "test_connection_api_sap_stl_test_connection_get",
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/sync/all": {
+"post": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Sync All Entities",
+"description": "Inicia sincronización de todas las entidades SAP-STL",
+"operationId": "sync_all_entities_api_sap_stl_sync_all_post",
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/sync/{entity_type}": {
+"post": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Sync Entity",
+"description": "Sincroniza una entidad específica",
+"operationId": "sync_entity_api_sap_stl_sync__entity_type__post",
+"parameters": [
+{
+"name": "entity_type",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string",
+"title": "Entity Type"
+}
+},
+{
+"name": "tipo_filtro",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Tipo Filtro"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/sync/status": {
+"get": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Get Sync Status",
+"description": "Obtiene el estado de sincronización",
+"operationId": "get_sync_status_api_sap_stl_sync_status_get",
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/items": {
+"get": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Get Items",
+"description": "Obtiene artículos sincronizados desde SAP-STL",
+"operationId": "get_items_api_sap_stl_items_get",
+"parameters": [
+{
+"name": "skip",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"minimum": 0,
+"default": 0,
+"title": "Skip"
+}
+},
+{
+"name": "limit",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"maximum": 1000,
+"minimum": 1,
+"default": 100,
+"title": "Limit"
+}
+},
+{
+"name": "search",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Search"
+}
+},
+{
+"name": "codigo_familia",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigo Familia"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/items/{item_code}": {
+"get": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Get Item By Code",
+"description": "Obtiene un artículo específico por código",
+"operationId": "get_item_by_code_api_sap_stl_items__item_code__get",
+"parameters": [
+{
+"name": "item_code",
+"in": "path",
+"required": true,
+"schema": {
+"type": "string",
+"title": "Item Code"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/dispatches": {
+"get": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Get Dispatches",
+"description": "Obtiene despachos sincronizados desde SAP-STL",
+"operationId": "get_dispatches_api_sap_stl_dispatches_get",
+"parameters": [
+{
+"name": "skip",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"minimum": 0,
+"default": 0,
+"title": "Skip"
+}
+},
+{
+"name": "limit",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"maximum": 1000,
+"minimum": 1,
+"default": 100,
+"title": "Limit"
+}
+},
+{
+"name": "codigo_cliente",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigo Cliente"
+}
+},
+{
+"name": "tipo_despacho",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Tipo Despacho"
+}
+},
+{
+"name": "from_date",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "string",
+"format": "date"
+},
+{
+"type": "null"
+}
+],
+"title": "From Date"
+}
+},
+{
+"name": "to_date",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "string",
+"format": "date"
+},
+{
+"type": "null"
+}
+],
+"title": "To Date"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/dispatches/{dispatch_id}/lines": {
+"get": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Get Dispatch Lines",
+"description": "Obtiene las líneas de un despacho",
+"operationId": "get_dispatch_lines_api_sap_stl_dispatches__dispatch_id__lines_get",
+"parameters": [
+{
+"name": "dispatch_id",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"title": "Dispatch Id"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/goods-receipts": {
+"get": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Get Goods Receipts",
+"description": "Obtiene recepciones de mercancía sincronizadas desde SAP-STL",
+"operationId": "get_goods_receipts_api_sap_stl_goods_receipts_get",
+"parameters": [
+{
+"name": "skip",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"minimum": 0,
+"default": 0,
+"title": "Skip"
+}
+},
+{
+"name": "limit",
+"in": "query",
+"required": false,
+"schema": {
+"type": "integer",
+"maximum": 1000,
+"minimum": 1,
+"default": 100,
+"title": "Limit"
+}
+},
+{
+"name": "codigo_suplidor",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigo Suplidor"
+}
+},
+{
+"name": "tipo_recepcion",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Tipo Recepcion"
+}
+},
+{
+"name": "from_date",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "string",
+"format": "date"
+},
+{
+"type": "null"
+}
+],
+"title": "From Date"
+}
+},
+{
+"name": "to_date",
+"in": "query",
+"required": false,
+"schema": {
+"anyOf": [
+{
+"type": "string",
+"format": "date"
+},
+{
+"type": "null"
+}
+],
+"title": "To Date"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/delivery-notes": {
+"post": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Create Delivery Note",
+"description": "Crea una nota de entrega en SAP-STL",
+"operationId": "create_delivery_note_api_sap_stl_delivery_notes_post",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/DispatchSTL"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/goods-receipt": {
+"post": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Create Goods Receipt",
+"description": "Crea una recepción de mercancía en SAP-STL",
+"operationId": "create_goods_receipt_api_sap_stl_goods_receipt_post",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/GoodsReceiptSTL"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/inventory-goods-issue": {
+"post": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Create Inventory Goods Issue",
+"description": "Crea una salida de inventario en SAP-STL",
+"operationId": "create_inventory_goods_issue_api_sap_stl_inventory_goods_issue_post",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/InventoryGoodsIssueSTL"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/inventory-goods-receipt": {
+"post": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Create Inventory Goods Receipt",
+"description": "Crea una entrada de inventario en SAP-STL",
+"operationId": "create_inventory_goods_receipt_api_sap_stl_inventory_goods_receipt_post",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/InventoryGoodsReceiptSTL"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/inventory-transfer": {
+"post": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Create Inventory Transfer",
+"description": "Crea una transferencia de inventario en SAP-STL",
+"operationId": "create_inventory_transfer_api_sap_stl_inventory_transfer_post",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/InventoryTransfer"
+}
+}
+},
+"required": true
+},
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+},
+"422": {
+"description": "Validation Error",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/HTTPValidationError"
+}
+}
+}
+}
+}
+}
+},
+"/api/sap-stl/analytics/summary": {
+"get": {
+"tags": [
+"SAP-STL Integration"
+],
+"summary": "Get Analytics Summary",
+"description": "Obtiene resumen analítico de datos SAP-STL",
+"operationId": "get_analytics_summary_api_sap_stl_analytics_summary_get",
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+}
+}
+}
+},
+"/health": {
+"get": {
+"summary": "Health Check",
+"operationId": "health_check_health_get",
+"responses": {
+"200": {
+"description": "Successful Response",
+"content": {
+"application/json": {
+"schema": {}
+}
+}
+}
+}
+}
+}
+},
+"components": {
+"schemas": {
+"DispatchLineSTL": {
+"properties": {
+"codigoProducto": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigoproducto"
+},
+"nombreProducto": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Nombreproducto"
+},
+"almacen": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Almacen"
+},
+"cantidadUMB": {
+"anyOf": [
+{
+"type": "number"
+},
+{
+"type": "null"
+}
+],
+"title": "Cantidadumb"
+},
+"lineNum": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Linenum"
+},
+"uoMCode": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Uomcode"
+},
+"uoMEntry": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Uomentry"
+}
+},
+"type": "object",
+"title": "DispatchLineSTL"
+},
+"DispatchSTL": {
+"properties": {
+"numeroDespacho": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Numerodespacho"
+},
+"numeroBusqueda": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Numerobusqueda"
+},
+"fechaCreacion": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Fechacreacion"
+},
+"fechaPicking": {
+"anyOf": [
+{
+"type": "string",
+"format": "date-time"
+},
+{
+"type": "null"
+}
+],
+"title": "Fechapicking"
+},
+"fechaCarga": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Fechacarga"
+},
+"codigoCliente": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigocliente"
+},
+"nombreCliente": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Nombrecliente"
+},
+"tipoDespacho": {
+"type": "integer",
+"title": "Tipodespacho"
+},
+"lines": {
+"anyOf": [
+{
+"items": {
+"$ref": "#/components/schemas/DispatchLineSTL"
+},
+"type": "array"
+},
+{
+"type": "null"
+}
+],
+"title": "Lines"
+}
+},
+"type": "object",
+"required": [
+"tipoDespacho"
+],
+"title": "DispatchSTL"
+},
+"GoodsReceiptLineSTL": {
+"properties": {
+"codigoProducto": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigoproducto"
+},
+"nombreProducto": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Nombreproducto"
+},
+"codigoFamilia": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigofamilia"
+},
+"nombreFamilia": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Nombrefamilia"
+},
+"cantidad": {
+"anyOf": [
+{
+"type": "number"
+},
+{
+"type": "null"
+}
+],
+"title": "Cantidad"
+},
+"unidadDeMedidaUMB": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Unidaddemedidaumb"
+},
+"lineNum": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Linenum"
+},
+"uoMEntry": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Uomentry"
+},
+"uoMCode": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Uomcode"
+},
+"diasVencimiento": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Diasvencimiento"
+}
+},
+"type": "object",
+"title": "GoodsReceiptLineSTL"
+},
+"GoodsReceiptSTL": {
+"properties": {
+"numeroDocumento": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Numerodocumento"
+},
+"numeroBusqueda": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Numerobusqueda"
+},
+"fecha": {
+"anyOf": [
+{
+"type": "string",
+"format": "date-time"
+},
+{
+"type": "null"
+}
+],
+"title": "Fecha"
+},
+"tipoRecepcion": {
+"anyOf": [
+{
+"type": "integer"
+},
+{
+"type": "null"
+}
+],
+"title": "Tiporecepcion"
+},
+"codigoSuplidor": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigosuplidor"
+},
+"nombreSuplidor": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Nombresuplidor"
+},
+"lines": {
+"anyOf": [
+{
+"items": {
+"$ref": "#/components/schemas/GoodsReceiptLineSTL"
+},
+"type": "array"
+},
+{
+"type": "null"
+}
+],
+"title": "Lines"
+}
+},
+"type": "object",
+"title": "GoodsReceiptSTL"
+},
+"HTTPValidationError": {
+"properties": {
+"detail": {
+"items": {
+"$ref": "#/components/schemas/ValidationError"
+},
+"type": "array",
+"title": "Detail"
+}
+},
+"type": "object",
+"title": "HTTPValidationError"
+},
+"InventoryGoodsIssueLineSTL": {
+"properties": {
+"codigoProducto": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigoproducto"
+},
+"cantidadUMB": {
+"type": "number",
+"title": "Cantidadumb"
+}
+},
+"type": "object",
+"required": [
+"cantidadUMB"
+],
+"title": "InventoryGoodsIssueLineSTL"
+},
+"InventoryGoodsIssueSTL": {
+"properties": {
+"fechaCreacion": {
+"anyOf": [
+{
+"type": "string",
+"format": "date-time"
+},
+{
+"type": "null"
+}
+],
+"title": "Fechacreacion"
+},
+"tipoDespacho": {
+"type": "integer",
+"title": "Tipodespacho"
+},
+"lines": {
+"anyOf": [
+{
+"items": {
+"$ref": "#/components/schemas/InventoryGoodsIssueLineSTL"
+},
+"type": "array"
+},
+{
+"type": "null"
+}
+],
+"title": "Lines"
+}
+},
+"type": "object",
+"required": [
+"tipoDespacho"
+],
+"title": "InventoryGoodsIssueSTL"
+},
+"InventoryGoodsReceiptLineSTL": {
+"properties": {
+"codigoProducto": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigoproducto"
+},
+"cantidadUMB": {
+"type": "number",
+"title": "Cantidadumb"
+}
+},
+"type": "object",
+"required": [
+"cantidadUMB"
+],
+"title": "InventoryGoodsReceiptLineSTL"
+},
+"InventoryGoodsReceiptSTL": {
+"properties": {
+"fechaCreacion": {
+"anyOf": [
+{
+"type": "string",
+"format": "date-time"
+},
+{
+"type": "null"
+}
+],
+"title": "Fechacreacion"
+},
+"tipoRecepcion": {
+"type": "integer",
+"title": "Tiporecepcion"
+},
+"lines": {
+"anyOf": [
+{
+"items": {
+"$ref": "#/components/schemas/InventoryGoodsReceiptLineSTL"
+},
+"type": "array"
+},
+{
+"type": "null"
+}
+],
+"title": "Lines"
+}
+},
+"type": "object",
+"required": [
+"tipoRecepcion"
+],
+"title": "InventoryGoodsReceiptSTL"
+},
+"InventoryTransfer": {
+"properties": {
+"fechaCreacion": {
+"anyOf": [
+{
+"type": "string",
+"format": "date-time"
+},
+{
+"type": "null"
+}
+],
+"title": "Fechacreacion"
+},
+"tipoDespacho": {
+"type": "integer",
+"title": "Tipodespacho"
+},
+"lines": {
+"anyOf": [
+{
+"items": {
+"$ref": "#/components/schemas/InventoryTransferLine"
+},
+"type": "array"
+},
+{
+"type": "null"
+}
+],
+"title": "Lines"
+}
+},
+"type": "object",
+"required": [
+"tipoDespacho"
+],
+"title": "InventoryTransfer"
+},
+"InventoryTransferLine": {
+"properties": {
+"codigoProducto": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Codigoproducto"
+},
+"cantidadUMB": {
+"type": "number",
+"title": "Cantidadumb"
+},
+"almacen": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Almacen"
+}
+},
+"type": "object",
+"required": [
+"cantidadUMB"
+],
+"title": "InventoryTransferLine"
+},
+"LoginRequest": {
+"properties": {
+"username": {
+"type": "string",
+"title": "Username"
+},
+"password": {
+"type": "string",
+"title": "Password"
+}
+},
+"type": "object",
+"required": [
+"username",
+"password"
+],
+"title": "LoginRequest"
+},
+"Token": {
+"properties": {
+"access_token": {
+"type": "string",
+"title": "Access Token"
+},
+"token_type": {
+"type": "string",
+"title": "Token Type"
+}
+},
+"type": "object",
+"required": [
+"access_token",
+"token_type"
+],
+"title": "Token"
+},
+"UserCreate": {
+"properties": {
+"username": {
+"type": "string",
+"title": "Username"
+},
+"email": {
+"type": "string",
+"format": "email",
+"title": "Email"
+},
+"is_active": {
+"type": "boolean",
+"title": "Is Active",
+"default": true
+},
+"password": {
+"type": "string",
+"title": "Password"
+}
+},
+"type": "object",
+"required": [
+"username",
+"email",
+"password"
+],
+"title": "UserCreate"
+},
+"UserResponse": {
+"properties": {
+"username": {
+"type": "string",
+"title": "Username"
+},
+"email": {
+"type": "string",
+"format": "email",
+"title": "Email"
+},
+"is_active": {
+"type": "boolean",
+"title": "Is Active",
+"default": true
+},
+"id": {
+"type": "integer",
+"title": "Id"
+},
+"created_at": {
+"anyOf": [
+{
+"type": "string",
+"format": "date-time"
+},
+{
+"type": "null"
+}
+],
+"title": "Created At"
+},
+"updated_at": {
+"anyOf": [
+{
+"type": "string",
+"format": "date-time"
+},
+{
+"type": "null"
+}
+],
+"title": "Updated At"
+}
+},
+"type": "object",
+"required": [
+"username",
+"email",
+"id"
+],
+"title": "UserResponse"
+},
+"UserUpdate": {
+"properties": {
+"username": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "null"
+}
+],
+"title": "Username"
+},
+"email": {
+"anyOf": [
+{
+"type": "string",
+"format": "email"
+},
+{
+"type": "null"
+}
+],
+"title": "Email"
+},
+"is_active": {
+"anyOf": [
+{
+"type": "boolean"
+},
+{
+"type": "null"
+}
+],
+"title": "Is Active"
+}
+},
+"type": "object",
+"title": "UserUpdate"
+},
+"ValidationError": {
+"properties": {
+"loc": {
+"items": {
+"anyOf": [
+{
+"type": "string"
+},
+{
+"type": "integer"
+}
+]
+},
+"type": "array",
+"title": "Location"
+},
+"msg": {
+"type": "string",
+"title": "Message"
+},
+"type": {
+"type": "string",
+"title": "Error Type"
+}
+},
+"type": "object",
+"required": [
+"loc",
+"msg",
+"type"
+],
+"title": "ValidationError"
+}
+},
+"securitySchemes": {
+"HTTPBearer": {
+"type": "http",
+"scheme": "bearer"
+}
+}
+}
+}

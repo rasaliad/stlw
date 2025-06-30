@@ -4,25 +4,26 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
+    /* Esquema crema pastel con mayor contraste */
+    --background: 45 25% 92%;           /* Fondo crema más oscuro */
+    --foreground: 25 20% 10%;           /* Texto más oscuro */
+    --card: 0 0% 100%;                  /* Cards blanco puro */
+    --card-foreground: 25 20% 10%;      /* Texto en cards */
+    --popover: 0 0% 100%;               /* Popovers blanco puro */
+    --popover-foreground: 25 20% 10%;   /* Texto en popovers */
+    --primary: 35 50% 50%;              /* Primary más intenso */
+    --primary-foreground: 0 0% 100%;    /* Texto blanco sobre primary */
+    --secondary: 40 30% 88%;            /* Secondary más definido */
+    --secondary-foreground: 25 25% 20%; /* Texto sobre secondary */
+    --muted: 40 15% 85%;                /* Muted más contrastado */
+    --muted-foreground: 25 15% 45%;     /* Texto muted */
+    --accent: 50 40% 82%;               /* Accent más visible */
+    --accent-foreground: 25 25% 15%;    /* Texto sobre accent */
+    --destructive: 0 70% 55%;           /* Rojo suave */
+    --destructive-foreground: 0 0% 100%; /* Texto blanco sobre destructive */
+    --border: 40 15% 82%;               /* Bordes más definidos */
+    --input: 0 0% 98%;                  /* Inputs casi blancos */
+    --ring: 35 50% 50%;                 /* Ring color primary */
     --radius: 0.5rem;
   }
 
@@ -55,5 +56,67 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Cards con sombra más pronunciada y mejor contraste */
+  .card-cream {
+    @apply bg-card border-2 border-border/60 shadow-lg shadow-primary/15;
+  }
+  
+  /* Cards con hover effect más notorio */
+  .card-cream-hover {
+    @apply card-cream hover:shadow-xl hover:shadow-primary/25 hover:border-primary/30 transition-all duration-300 hover:-translate-y-1;
+  }
+  
+  /* Header con gradiente crema */
+  .header-cream {
+    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--secondary)) 100%);
+    @apply border-b border-border/30 backdrop-blur-md;
+  }
+  
+  /* Sidebar con fondo crema */
+  .sidebar-cream {
+    background: linear-gradient(180deg, hsl(var(--card)/0.9) 0%, hsl(var(--muted)/0.8) 100%);
+    @apply border-r border-border/40 backdrop-blur-sm;
+  }
+  
+  /* Input elegante */
+  .input-cream {
+    @apply bg-input/70 border-border/60 focus:border-primary/40 focus:ring-1 focus:ring-primary/20;
+  }
+  
+  /* Botón primary con estilo crema */
+  .btn-cream-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)/0.8) 100%);
+    @apply text-primary-foreground hover:shadow-lg hover:shadow-primary/20 transition-all duration-200;
+  }
+  
+  /* Lista con separadores suaves */
+  .list-cream {
+    @apply divide-y divide-border/30;
+  }
+  
+  /* Item de lista con hover */
+  .list-item-cream {
+    @apply hover:bg-accent/30 transition-colors duration-150 px-4 py-2 rounded-lg;
+  }
+}
+
+@layer utilities {
+  /* Efectos de cristal */
+  .glass-effect {
+    @apply bg-card/80 backdrop-blur-md border border-border/50;
+  }
+  
+  /* Sombra crema más pronunciada */
+  .shadow-cream {
+    box-shadow: 0 8px 32px hsl(var(--primary)/0.2), 0 2px 8px hsl(var(--primary)/0.1);
+  }
+  
+  /* Gradiente de fondo con más contraste */
+  .bg-gradient-cream {
+    background: radial-gradient(ellipse at top, hsl(var(--background)) 0%, hsl(var(--muted)/0.6) 100%);
   }
 }

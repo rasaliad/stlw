@@ -1,0 +1,138 @@
+{
+  "numeroDespacho": 23,
+  "numeroBusqueda": 20,
+  "fechaCreacion": "2025-03-28T10:26:00Z",
+  "fechaPicking": "2025-03-28T00:00:00Z",
+  "fechaCarga": null,
+  "codigoCliente": "CL-00047",
+  "nombreCliente": "ALIANZA JUVENIL POR EL DEPORTE Y LA C.",
+  "tipoDespacho": 201,
+  "lines": [
+    {
+      "codigoProducto": "331",
+      "nombreProducto": "STRIPLOIN CHOICE PORCIONADO",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 0,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "332",
+      "nombreProducto": "RIBEYE CHOICE PORCIONADO",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 1,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "334",
+      "nombreProducto": "LOMO DE CERDO PORCIONADO",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 2,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "337",
+      "nombreProducto": "CHURRASCO CAB PELADO",
+      "almacen": "01",
+      "cantidadUMB": 5,
+      "lineNum": 3,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "338",
+      "nombreProducto": "FLAP MEAT CAB PRIME",
+      "almacen": "01",
+      "cantidadUMB": 2,
+      "lineNum": 4,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "339",
+      "nombreProducto": "STRIPLOIN 0X1 CAB PRIME",
+      "almacen": "01",
+      "cantidadUMB": 5,
+      "lineNum": 5,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "340",
+      "nombreProducto": "PIERNA DE CERDO 17-20",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 6,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "342",
+      "nombreProducto": "RIBEYE TOMAHAWK PRIME 42 OZ",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 7,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "345",
+      "nombreProducto": "SHORTLOIN WAGYU X PLATINUM",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 8,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "353",
+      "nombreProducto": "STRIPLOIN WAGYU",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 9,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "354",
+      "nombreProducto": "PIERNA DE CERDO PRX",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 10,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "355",
+      "nombreProducto": "CHULETA CERDO PRX",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 11,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "357",
+      "nombreProducto": "LOMO DE CERDO PRX",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 12,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "359",
+      "nombreProducto": "CHULETA DE CERDO 10-14",
+      "almacen": "01",
+      "cantidadUMB": 10,
+      "lineNum": 13,
+      "uoMCode": "Libra (Lb)",
+      "uoMEntry": 2
+    }
+  ]
+}

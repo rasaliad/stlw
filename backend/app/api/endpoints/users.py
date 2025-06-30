@@ -34,6 +34,7 @@ async def create_user(user_data: UserCreate):
             username=user.username,
             email=user.email,
             is_active=user.is_active,
+            role=user.role or 'OPERADOR',
             created_at=user.created_at,
             updated_at=user.updated_at
         )
@@ -56,6 +57,7 @@ async def get_users(
             username=user.username,
             email=user.email,
             is_active=user.is_active,
+            role=user.role or 'OPERADOR',
             created_at=user.created_at,
             updated_at=user.updated_at
         )

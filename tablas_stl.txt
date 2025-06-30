@@ -1,0 +1,26 @@
+ la cabecera es:
+	select
+	  dv.id_pedido
+	, pv.numero_pedido_erp
+	, pv.tipo
+	, pv.estatus_nombre
+	, pv.cliente_codigo
+	, pv.cliente_nombre
+	, pv.fecha
+	from vw_pedidos pv
+
+ el detalle es:
+
+	select
+	  dv.id_pedido_detalle
+	, dv.id_pedido
+	, dv.posicion
+	, dv.codigo
+	, dv.producto_nombre
+	, dv.cantidad_pedida
+	, dv.cantidad_despachada
+	, dv.nombre_unidad
+	, dv.diferencia_stl_erp
+	from vw_pedidos_detalle dv
+	where dv.id_pedido = ?
+	order by dv.posicion

@@ -19,9 +19,12 @@ class Settings(BaseSettings):
     FIREBIRD_PASSWORD: str = os.getenv("FIREBIRD_PASSWORD", "masterkey")
     
     # SAP-STL API Configuration
-    SAP_STL_URL: str = os.getenv("SAP_STL_URL", "http://192.168.160.254:49568")
+    SAP_STL_URL: str = os.getenv("SAP_STL_URL", "https://dependent-vehicle-victory-por.trycloudflare.com")
     SAP_STL_USERNAME: str = os.getenv("SAP_STL_USERNAME", "STLUser")
     SAP_STL_PASSWORD: str = os.getenv("SAP_STL_PASSWORD", "7a6T9IVeUdf5bvRIv")
+    
+    # Modo simulación para datos SAP-STL (usar mientras el servidor no esté disponible)
+    USE_MOCK_SAP_DATA: bool = os.getenv("USE_MOCK_SAP_DATA", "false").lower() == "true"
     
     @property
     def firebird_url(self) -> str:
