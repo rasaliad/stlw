@@ -24,8 +24,16 @@ import {
   Package,
   ChevronDown,
   ChevronUp,
-  Building2
+  Building2,
+  RefreshCw
 } from 'lucide-react'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 interface PedidoDetalle {
   id: number
@@ -74,6 +82,7 @@ export default function STLDespachosPage() {
     codigo_cliente: ''
   })
   const [totalCount, setTotalCount] = useState(0)
+  const [changingStatus, setChangingStatus] = useState<Set<number>>(new Set())
 
   useEffect(() => {
     fetchData()
@@ -138,6 +147,53 @@ export default function STLDespachosPage() {
     }).format(num)
   }
 
+  const getValidNextStates = (currentState: string): string[] => {
+    const stateFlow: { [key: string]: string[] } = {
+      'DISPONIBLE': ['PICKING'],
+      'PICKING': ['ERP', 'DESPACHADO'],
+      'ERP': ['DESPACHADO'],
+      'DESPACHADO': [] // No puede cambiar
+    }
+    
+    return [currentState, ...(stateFlow[currentState] || [])]
+  }
+
+  const handleStatusChange = async (pedidoId: number, nuevoEstatus: string) => {
+    setChangingStatus(prev => new Set(prev).add(pedidoId))
+    
+    try {
+      const estatusMap: { [key: string]: number } = {
+        'DISPONIBLE': 1,
+        'PICKING': 2,
+        'ERP': 3,
+        'DESPACHADO': 4
+      }
+      
+      const estatusValue = estatusMap[nuevoEstatus]
+      
+      await api.put(`/stl/pedidos/${pedidoId}/estatus`, {
+        nuevo_estatus: estatusValue
+      })
+      
+      // Actualizar estado local
+      setPedidos(prev => prev.map(pedido => 
+        pedido.id === pedidoId 
+          ? { ...pedido, estado: nuevoEstatus }
+          : pedido
+      ))
+      
+    } catch (error) {
+      console.error('Error cambiando estatus:', error)
+      alert('Error al cambiar el estatus del pedido')
+    } finally {
+      setChangingStatus(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(pedidoId)
+        return newSet
+      })
+    }
+  }
+
   if (isLoading) {
     return (
       <AppLayout currentUser={currentUser || undefined}>
@@ -153,7 +209,7 @@ export default function STLDespachosPage() {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight">STL Despachos</h2>
+            <h2 className="text-3xl font-bold tracking-tight">STL Despachos - PROBANDO CAMBIOS</h2>
             <p className="text-muted-foreground">
               Gestión de despachos del almacén STL
             </p>
@@ -222,7 +278,7 @@ export default function STLDespachosPage() {
               <Building2 className="h-4 w-4 text-primary/70" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-primary">{totalCount}</div>
+              <div className="text-2xl font-bold text-primary">{pedidos.length}</div>
             </CardContent>
           </Card>
 
@@ -315,21 +371,60 @@ export default function STLDespachosPage() {
                       <TableCell>{formatDate(pedido.fecha_pedido)}</TableCell>
                       <TableCell>{formatDate(pedido.fecha_despacho)}</TableCell>
                       <TableCell>
-                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                          pedido.estado?.trim() === 'DESPACHADO' 
-                            ? 'bg-green-100 text-green-800' 
-                            : pedido.estado?.trim() === 'PENDIENTE'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : pedido.estado?.trim() === 'DISPONIBLE'
-                            ? 'bg-blue-100 text-blue-800'
-                            : pedido.estado?.trim() === 'ERP'
-                            ? 'bg-purple-100 text-purple-800'
-                            : pedido.estado?.trim() === 'PICKING'
-                            ? 'bg-orange-100 text-orange-800'
-                            : 'bg-gray-100 text-gray-800'
-                        }`}>
-                          {pedido.estado || 'N/A'}
-                        </span>
+                        <div className="w-32">
+                          <Select
+                            value={pedido.estado || 'DISPONIBLE'}
+                            onValueChange={(nuevoEstatus) => handleStatusChange(pedido.id, nuevoEstatus)}
+                            disabled={changingStatus.has(pedido.id)}
+                          >
+                            <SelectTrigger className="h-8 text-xs">
+                              <SelectValue>
+                                {changingStatus.has(pedido.id) ? (
+                                  <div className="flex items-center gap-1">
+                                    <RefreshCw className="h-3 w-3 animate-spin" />
+                                    <span>Cambiando...</span>
+                                  </div>
+                                ) : (
+                                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                                    pedido.estado === 'DISPONIBLE' 
+                                      ? 'bg-blue-100 text-blue-800'
+                                      : pedido.estado === 'PICKING'
+                                      ? 'bg-orange-100 text-orange-800'
+                                      : pedido.estado === 'ERP'
+                                      ? 'bg-purple-100 text-purple-800'
+                                      : pedido.estado === 'DESPACHADO'
+                                      ? 'bg-green-100 text-green-800'
+                                      : 'bg-gray-100 text-gray-800'
+                                  }`}>
+                                    {pedido.estado || 'N/A'}
+                                  </span>
+                                )}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              {getValidNextStates(pedido.estado || 'DISPONIBLE').map((estado) => (
+                                <SelectItem key={estado} value={estado}>
+                                  <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                                    estado === 'DISPONIBLE' 
+                                      ? 'bg-blue-100 text-blue-800'
+                                      : estado === 'PICKING'
+                                      ? 'bg-orange-100 text-orange-800'
+                                      : estado === 'ERP'
+                                      ? 'bg-purple-100 text-purple-800'
+                                      : estado === 'DESPACHADO'
+                                      ? 'bg-green-100 text-green-800'
+                                      : 'bg-gray-100 text-gray-800'
+                                  }`}>
+                                    {estado === 'DISPONIBLE' ? '1. DISPONIBLE' :
+                                     estado === 'PICKING' ? '2. PICKING' :
+                                     estado === 'ERP' ? '3. ERP' :
+                                     estado === 'DESPACHADO' ? '4. DESPACHADO' : estado}
+                                  </span>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </TableCell>
                       <TableCell className="text-right">
                         {pedido.detalles?.length || 0}

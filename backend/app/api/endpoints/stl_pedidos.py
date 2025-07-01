@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from typing import List, Optional
 from datetime import datetime, date
+from pydantic import BaseModel
 from app.core.security import verify_token
 from app.core.database import FirebirdConnection
 from app.services.user_service import user_service
@@ -31,6 +32,10 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         )
     
     return user
+
+# Modelo para cambio de estatus
+class CambioEstatusRequest(BaseModel):
+    nuevo_estatus: int
 
 class PedidoDetalle:
     def __init__(self, **kwargs):
@@ -116,7 +121,7 @@ async def get_pedidos(
                     fecha_despacho=None,
                     codigo_cliente=row[4],
                     nombre_cliente=row[5],
-                    estado=row[3],
+                    estado=row[3].strip() if row[3] else None,
                     total_pedido=None,
                     observaciones=row[2]
                 )
@@ -226,4 +231,61 @@ async def get_pedidos_count(
             
     except Exception as e:
         logger.error(f"Error obteniendo conteo de pedidos: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")
+
+@router.put("/{pedido_id}/estatus")
+async def cambiar_estatus_pedido(
+    pedido_id: int,
+    request: CambioEstatusRequest,
+    current_user = Depends(get_current_user)
+):
+    """Cambia el estatus de un pedido en la tabla PEDIDOS"""
+    
+    db = FirebirdConnection()
+    
+    try:
+        with db.get_connection() as conn:
+            cursor = conn.cursor()
+            
+            # Verificar que el pedido existe
+            check_query = "SELECT ID_PEDIDO, ESTATUS FROM PEDIDOS WHERE ID_PEDIDO = ?"
+            cursor.execute(check_query, (pedido_id,))
+            pedido_actual = cursor.fetchone()
+            
+            if not pedido_actual:
+                raise HTTPException(status_code=404, detail="Pedido no encontrado")
+            
+            estatus_actual = pedido_actual[1]
+            
+            # Actualizar el estatus en la tabla PEDIDOS
+            update_query = """
+                UPDATE PEDIDOS 
+                SET ESTATUS = ?, 
+                    FECHA_CAMBIO = CURRENT_TIMESTAMP,
+                    USUARIO_CAMBIO = ?
+                WHERE ID_PEDIDO = ?
+            """
+            
+            cursor.execute(update_query, (
+                request.nuevo_estatus,
+                current_user.username,
+                pedido_id
+            ))
+            
+            conn.commit()
+            
+            logger.info(f"Estatus cambiado - Pedido {pedido_id}: {estatus_actual} → {request.nuevo_estatus} por {current_user.username}")
+            
+            return {
+                "success": True,
+                "message": f"Estatus cambiado exitosamente",
+                "pedido_id": pedido_id,
+                "estatus_anterior": estatus_actual,
+                "estatus_nuevo": request.nuevo_estatus
+            }
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error cambiando estatus del pedido {pedido_id}: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error interno del servidor: {str(e)}")
