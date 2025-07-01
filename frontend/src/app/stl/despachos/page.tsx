@@ -57,8 +57,20 @@ export default function STLDespachosPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
   const [filters, setFilters] = useState({
-    fecha_desde: new Date().toISOString().split('T')[0],
-    fecha_hasta: new Date().toISOString().split('T')[0],
+    fecha_desde: (() => {
+      const today = new Date()
+      const year = today.getFullYear()
+      const month = String(today.getMonth() + 1).padStart(2, '0')
+      const day = String(today.getDate()).padStart(2, '0')
+      return `${year}-${month}-${day}`
+    })(),
+    fecha_hasta: (() => {
+      const today = new Date()
+      const year = today.getFullYear()
+      const month = String(today.getMonth() + 1).padStart(2, '0')
+      const day = String(today.getDate()).padStart(2, '0')
+      return `${year}-${month}-${day}`
+    })(),
     codigo_cliente: ''
   })
   const [totalCount, setTotalCount] = useState(0)

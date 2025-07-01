@@ -12,7 +12,7 @@ class FirebirdConnection:
             'password': settings.FIREBIRD_PASSWORD,
             'charset': 'UTF8'
         }
-    
+ 
     @contextmanager
     def get_connection(self):
         connection = None
