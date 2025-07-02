@@ -121,8 +121,8 @@ class BackgroundSyncService:
             elif entity_type == "ITEMS":
                 result = await optimized_sync_service.sync_items_optimized()
             elif entity_type == "PROCUREMENT_ORDERS":
-                # Placeholder - no implementado aún
-                result = {'inserted': 0, 'updated': 0, 'skipped': 0, 'errors': 0}
+                # Sincronizar órdenes de compra (usa mismas tablas que GOODS_RECEIPTS)
+                result = await optimized_sync_service.sync_procurement_orders_optimized()
             elif entity_type == "DELIVERY_NOTES":
                 # Envío de pedidos a SAP (DeliveryNotes)
                 from app.services.sap_delivery_service import sap_delivery_service

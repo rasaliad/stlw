@@ -465,5 +465,97 @@ class OptimizedSyncService:
             if line_num not in processed_lines:
                 cursor.execute("DELETE FROM STL_GOODS_RECEIPT_LINES WHERE ID = ?", (line_id,))
 
+    async def sync_procurement_orders_optimized(self, tipo_recepcion: Optional[int] = None) -> Dict[str, int]:
+        """Sincroniza órdenes de compra (ProcurementOrders) - usa mismas tablas que recepciones"""
+        start_time = datetime.now()
+        stats = {'inserted': 0, 'updated': 0, 'skipped': 0, 'lines_inserted': 0, 'lines_updated': 0, 'lines_skipped': 0, 'errors': 0}
+        
+        try:
+            logger.info("Iniciando sincronización OPTIMIZADA de órdenes de compra (ProcurementOrders)")
+            # Usa get_procurement_orders en lugar de get_goods_receipts
+            orders = await sap_stl_client.get_procurement_orders(tipo_recepcion)
+            if not orders:
+                logger.warning("No se obtuvieron órdenes de compra del API SAP-STL")
+                return stats
+            
+            logger.info(f"Obtenidas {len(orders)} órdenes de compra del API SAP-STL")
+            
+            with self.db.get_connection() as conn:
+                cursor = conn.cursor()
+                
+                for order in orders:
+                    try:
+                        # Usa las mismas tablas que GOODS_RECEIPTS
+                        cursor.execute("""
+                            SELECT ID, DATA_HASH FROM STL_GOODS_RECEIPTS 
+                            WHERE NUMERO_DOCUMENTO = ? AND TIPO_RECEPCION = ?
+                        """, (order.numeroDocumento, order.tipoRecepcion))
+                        existing = cursor.fetchone()
+                        
+                        order_data = self._receipt_to_dict(order)
+                        new_hash = self._calculate_hash(order_data)
+                        
+                        if existing:
+                            order_id = existing[0]
+                            existing_hash = existing[1] if existing[1] else ""
+                            
+                            if new_hash != existing_hash:
+                                sql = """
+                                UPDATE STL_GOODS_RECEIPTS SET 
+                                    NUMERO_BUSQUEDA = ?, FECHA = ?, CODIGO_SUPLIDOR = ?,
+                                    NOMBRE_SUPLIDOR = ?, UPDATED_AT = ?, SYNC_STATUS = 'SYNCED', 
+                                    LAST_SYNC_AT = ?, DATA_HASH = ?
+                                WHERE ID = ?
+                                """
+                                # Convertir fecha ISO string a datetime para Firebird
+                                fecha_order = self._parse_iso_date(order.fecha) if order.fecha else None
+                                
+                                cursor.execute(sql, (
+                                    order.numeroBusqueda, fecha_order, order.codigoSuplidor,
+                                    order.nombreSuplidor, datetime.now(), datetime.now(), 
+                                    new_hash, order_id
+                                ))
+                                stats['updated'] += 1
+                                logger.debug(f"Orden de compra actualizada: {order.numeroDocumento}")
+                            else:
+                                stats['skipped'] += 1
+                                logger.debug(f"Orden de compra sin cambios: {order.numeroDocumento}")
+                        else:
+                            sql = """
+                            INSERT INTO STL_GOODS_RECEIPTS (
+                                NUMERO_DOCUMENTO, NUMERO_BUSQUEDA, FECHA, TIPO_RECEPCION,
+                                CODIGO_SUPLIDOR, NOMBRE_SUPLIDOR, SYNC_STATUS, LAST_SYNC_AT, DATA_HASH
+                            ) VALUES (?, ?, ?, ?, ?, ?, 'SYNCED', ?, ?)
+                            """
+                            # Convertir fecha ISO string a datetime para Firebird
+                            fecha_order = self._parse_iso_date(order.fecha) if order.fecha else None
+                            
+                            cursor.execute(sql, (
+                                order.numeroDocumento, order.numeroBusqueda, fecha_order,
+                                order.tipoRecepcion, order.codigoSuplidor, order.nombreSuplidor,
+                                datetime.now(), new_hash
+                            ))
+                            cursor.execute("SELECT GEN_ID(GEN_STL_GOODS_RECEIPTS_ID, 0) FROM RDB$DATABASE")
+                            order_id = cursor.fetchone()[0]
+                            stats['inserted'] += 1
+                            logger.debug(f"Orden de compra insertada: {order.numeroDocumento}")
+                        
+                        if order.lines:
+                            await self._sync_receipt_lines_optimized(cursor, order_id, order.lines, stats)
+                            
+                    except Exception as e:
+                        logger.error(f"Error procesando orden de compra {order.numeroDocumento}: {str(e)}")
+                        stats['errors'] += 1
+                
+                conn.commit()
+                
+        except Exception as e:
+            logger.error(f"Error en sincronización de órdenes de compra: {str(e)}")
+            stats['errors'] += 1
+        
+        duration = datetime.now() - start_time
+        logger.info(f"Sincronización órdenes de compra completada en {duration.total_seconds():.2f}s - Stats: {stats}")
+        return stats
+
 # Singleton
 optimized_sync_service = OptimizedSyncService()
