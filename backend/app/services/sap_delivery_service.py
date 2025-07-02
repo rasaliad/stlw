@@ -165,6 +165,9 @@ class SAPDeliveryService:
             with self.db.get_connection() as conn:
                 cursor = conn.cursor()
                 
+                # Limpiar mensaje para evitar errores de conversión en Firebird
+                clean_message = str(result['message']).replace('T00:00:00Z', '').replace('2025-07-', '').replace('2025-01-', '')[:200]
+                
                 if result['success']:
                     # Si fue exitoso, actualizar estatus_erp = 3
                     query = """
@@ -174,7 +177,7 @@ class SAPDeliveryService:
                             numero_solucion_erp = ?
                         WHERE id_pedido = ?
                     """
-                    params = (result['message'], result['code'], id_pedido)
+                    params = (clean_message, result['code'], id_pedido)
                 else:
                     # Si falló, solo actualizar mensaje y código
                     query = """
@@ -183,7 +186,7 @@ class SAPDeliveryService:
                             numero_solucion_erp = ?
                         WHERE id_pedido = ?
                     """
-                    params = (result['message'], result['code'], id_pedido)
+                    params = (clean_message, result['code'], id_pedido)
                 
                 cursor.execute(query, params)
                 conn.commit()
