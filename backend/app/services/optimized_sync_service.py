@@ -24,25 +24,35 @@ class OptimizedSyncService:
         data_str = json.dumps(data, sort_keys=True, default=str)
         return hashlib.md5(data_str.encode()).hexdigest()
     
-    def _parse_iso_date(self, iso_string: str) -> Optional[datetime]:
-        """Convierte string ISO a datetime para Firebird"""
-        if not iso_string:
+    def _parse_iso_date(self, iso_string_or_datetime) -> Optional[datetime]:
+        """Convierte string ISO o datetime a datetime para Firebird"""
+        if not iso_string_or_datetime:
             return None
-        try:
-            # Manejar diferentes formatos ISO
-            if 'T' in iso_string:
-                if iso_string.endswith('Z'):
-                    # Formato: 2025-07-02T00:00:00Z
-                    return datetime.strptime(iso_string, '%Y-%m-%dT%H:%M:%SZ')
+        
+        # Si ya es datetime, retornarlo directamente
+        if isinstance(iso_string_or_datetime, datetime):
+            return iso_string_or_datetime
+        
+        # Si es string, parsearlo
+        if isinstance(iso_string_or_datetime, str):
+            try:
+                # Manejar diferentes formatos ISO
+                if 'T' in iso_string_or_datetime:
+                    if iso_string_or_datetime.endswith('Z'):
+                        # Formato: 2025-07-02T00:00:00Z
+                        return datetime.strptime(iso_string_or_datetime, '%Y-%m-%dT%H:%M:%SZ')
+                    else:
+                        # Formato: 2025-07-02T00:00:00
+                        return datetime.strptime(iso_string_or_datetime, '%Y-%m-%dT%H:%M:%S')
                 else:
-                    # Formato: 2025-07-02T00:00:00
-                    return datetime.strptime(iso_string, '%Y-%m-%dT%H:%M:%S')
-            else:
-                # Formato: 2025-07-02
-                return datetime.strptime(iso_string, '%Y-%m-%d')
-        except ValueError as e:
-            logger.error(f"Error parseando fecha ISO '{iso_string}': {str(e)}")
-            return None
+                    # Formato: 2025-07-02
+                    return datetime.strptime(iso_string_or_datetime, '%Y-%m-%d')
+            except ValueError as e:
+                logger.error(f"Error parseando fecha ISO '{iso_string_or_datetime}': {str(e)}")
+                return None
+        
+        logger.warning(f"Tipo de fecha no esperado: {type(iso_string_or_datetime)}")
+        return None
     
     def _item_to_dict(self, item: ItemSTL) -> dict:
         """Convierte item a diccionario para comparación"""
