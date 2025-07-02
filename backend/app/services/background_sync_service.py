@@ -120,6 +120,17 @@ class BackgroundSyncService:
             elif entity_type == "PROCUREMENT_ORDERS":
                 # Placeholder - no implementado aún
                 result = {'inserted': 0, 'updated': 0, 'skipped': 0, 'errors': 0}
+            elif entity_type == "DELIVERY_NOTES":
+                # Envío de pedidos a SAP (DeliveryNotes)
+                from app.services.sap_delivery_service import sap_delivery_service
+                result = await sap_delivery_service.process_pending_deliveries()
+                # Convertir formato del resultado para compatibilidad
+                result = {
+                    'inserted': result.get('success', 0),
+                    'updated': 0,
+                    'skipped': 0,
+                    'errors': result.get('failed', 0)
+                }
             
             success = result.get('errors', 0) == 0
             

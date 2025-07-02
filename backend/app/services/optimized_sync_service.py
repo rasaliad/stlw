@@ -11,6 +11,7 @@ from app.services.sap_stl_client import sap_stl_client
 from app.models.sap_stl_models import (
     ItemSTL, DispatchSTL, GoodsReceiptSTL, DispatchLineSTL, GoodsReceiptLineSTL
 )
+from app.services.sap_delivery_service import sap_delivery_service
 
 logger = logging.getLogger(__name__)
 

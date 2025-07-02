@@ -1,5 +1,5 @@
 import httpx
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from datetime import datetime
 import logging
 
@@ -194,10 +194,34 @@ class SAPSTLClient:
             return DispatchSTL(**data)
         return None
     
-    async def create_delivery_note(self, dispatch: DispatchSTL) -> bool:
-        """Crea una nota de entrega"""
-        data = await self._make_request("POST", "/Transaction/DeliveryNotes", json=dispatch.dict())
-        return data is not None
+    async def create_delivery_note(self, dispatch: DispatchSTL) -> Dict[str, Any]:
+        """Crea una nota de entrega y retorna la respuesta completa"""
+        try:
+            response = await self.client.post(
+                f"{self.base_url}/Transaction/DeliveryNotes",
+                json=dispatch.dict(),
+                headers=self._get_headers()
+            )
+            
+            success = response.status_code in [200, 201, 204]  # Solo códigos de éxito reales
+            
+            logger.info(f"SAP Response - Status: {response.status_code}, Success: {success}")
+            logger.info(f"SAP Response - Text: {response.text}")
+            
+            return {
+                'success': success,
+                'status_code': response.status_code,
+                'data': response.json() if response.content else None,
+                'message': response.text if response.status_code not in [200, 201, 204] else 'OK'
+            }
+        except Exception as e:
+            logger.error(f"Error creando DeliveryNote: {str(e)}")
+            return {
+                'success': False,
+                'status_code': 500,
+                'data': None,
+                'message': str(e)
+            }
     
     async def get_procurement_orders(self, tipo_recepcion: Optional[int] = None) -> Optional[List[GoodsReceiptSTL]]:
         """Obtiene órdenes de compra"""

@@ -45,7 +45,7 @@ class DispatchSTL(BaseModel):
     numeroDespacho: Optional[int] = None
     numeroBusqueda: Optional[int] = None
     fechaCreacion: Optional[str] = None
-    fechaPicking: Optional[datetime] = None
+    fechaPicking: Optional[str] = None
     fechaCarga: Optional[str] = None
     codigoCliente: Optional[str] = None
     nombreCliente: Optional[str] = None
