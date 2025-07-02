@@ -248,6 +248,7 @@ class OptimizedSyncService:
                             
                     except Exception as e:
                         logger.error(f"Error procesando despacho {dispatch.numeroDespacho}: {str(e)}")
+                        logger.error(f"Datos del despacho: fechaCreacion={dispatch.fechaCreacion}, fechaPicking={dispatch.fechaPicking}, fechaCarga={dispatch.fechaCarga}")
                         stats['errors'] += 1
                 
                 conn.commit()

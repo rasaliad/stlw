@@ -205,10 +205,12 @@ class SAPSTLClient:
             
             success = response.status_code in [200, 201, 204]  # Solo códigos de éxito reales
             
-            if not success:
-                logger.error(f"SAP DeliveryNote Error - Status: {response.status_code}, Text: {response.text}")
+            # Log detallado para debugging
+            logger.info(f"SAP DeliveryNote Response - Status: {response.status_code}, Success: {success}")
+            if response.text:
+                logger.info(f"SAP DeliveryNote Response Text: {response.text}")
             else:
-                logger.info(f"SAP DeliveryNote Success - Status: {response.status_code}")
+                logger.info("SAP DeliveryNote Response: Sin contenido")
             
             return {
                 'success': success,
