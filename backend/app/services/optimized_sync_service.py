@@ -24,6 +24,26 @@ class OptimizedSyncService:
         data_str = json.dumps(data, sort_keys=True, default=str)
         return hashlib.md5(data_str.encode()).hexdigest()
     
+    def _parse_iso_date(self, iso_string: str) -> Optional[datetime]:
+        """Convierte string ISO a datetime para Firebird"""
+        if not iso_string:
+            return None
+        try:
+            # Manejar diferentes formatos ISO
+            if 'T' in iso_string:
+                if iso_string.endswith('Z'):
+                    # Formato: 2025-07-02T00:00:00Z
+                    return datetime.strptime(iso_string, '%Y-%m-%dT%H:%M:%SZ')
+                else:
+                    # Formato: 2025-07-02T00:00:00
+                    return datetime.strptime(iso_string, '%Y-%m-%dT%H:%M:%S')
+            else:
+                # Formato: 2025-07-02
+                return datetime.strptime(iso_string, '%Y-%m-%d')
+        except ValueError as e:
+            logger.error(f"Error parseando fecha ISO '{iso_string}': {str(e)}")
+            return None
+    
     def _item_to_dict(self, item: ItemSTL) -> dict:
         """Convierte item a diccionario para comparación"""
         return {
@@ -185,9 +205,14 @@ class OptimizedSyncService:
                                     UPDATED_AT = ?, SYNC_STATUS = 'SYNCED', LAST_SYNC_AT = ?, DATA_HASH = ?
                                 WHERE ID = ?
                                 """
+                                # Convertir fechas ISO string a datetime para Firebird
+                                fecha_creacion = self._parse_iso_date(dispatch.fechaCreacion) if dispatch.fechaCreacion else None
+                                fecha_picking = self._parse_iso_date(dispatch.fechaPicking) if dispatch.fechaPicking else None
+                                fecha_carga = self._parse_iso_date(dispatch.fechaCarga) if dispatch.fechaCarga else None
+                                
                                 cursor.execute(sql, (
-                                    dispatch.numeroBusqueda, dispatch.fechaCreacion, dispatch.fechaPicking,
-                                    dispatch.fechaCarga, dispatch.codigoCliente, dispatch.nombreCliente,
+                                    dispatch.numeroBusqueda, fecha_creacion, fecha_picking,
+                                    fecha_carga, dispatch.codigoCliente, dispatch.nombreCliente,
                                     datetime.now(), datetime.now(), new_hash, dispatch_id
                                 ))
                                 stats['updated'] += 1
@@ -203,9 +228,14 @@ class OptimizedSyncService:
                                 SYNC_STATUS, LAST_SYNC_AT, DATA_HASH
                             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'SYNCED', ?, ?)
                             """
+                            # Convertir fechas ISO string a datetime para Firebird
+                            fecha_creacion = self._parse_iso_date(dispatch.fechaCreacion) if dispatch.fechaCreacion else None
+                            fecha_picking = self._parse_iso_date(dispatch.fechaPicking) if dispatch.fechaPicking else None
+                            fecha_carga = self._parse_iso_date(dispatch.fechaCarga) if dispatch.fechaCarga else None
+                            
                             cursor.execute(sql, (
-                                dispatch.numeroDespacho, dispatch.numeroBusqueda, dispatch.fechaCreacion,
-                                dispatch.fechaPicking, dispatch.fechaCarga, dispatch.codigoCliente,
+                                dispatch.numeroDespacho, dispatch.numeroBusqueda, fecha_creacion,
+                                fecha_picking, fecha_carga, dispatch.codigoCliente,
                                 dispatch.nombreCliente, dispatch.tipoDespacho, datetime.now(), new_hash
                             ))
                             cursor.execute("SELECT GEN_ID(GEN_STL_DISPATCHES_ID, 0) FROM RDB$DATABASE")
@@ -328,8 +358,11 @@ class OptimizedSyncService:
                                     LAST_SYNC_AT = ?, DATA_HASH = ?
                                 WHERE ID = ?
                                 """
+                                # Convertir fecha ISO string a datetime para Firebird
+                                fecha_receipt = self._parse_iso_date(receipt.fecha) if receipt.fecha else None
+                                
                                 cursor.execute(sql, (
-                                    receipt.numeroBusqueda, receipt.fecha, receipt.codigoSuplidor,
+                                    receipt.numeroBusqueda, fecha_receipt, receipt.codigoSuplidor,
                                     receipt.nombreSuplidor, datetime.now(), datetime.now(), 
                                     new_hash, receipt_id
                                 ))
@@ -344,8 +377,11 @@ class OptimizedSyncService:
                                 CODIGO_SUPLIDOR, NOMBRE_SUPLIDOR, SYNC_STATUS, LAST_SYNC_AT, DATA_HASH
                             ) VALUES (?, ?, ?, ?, ?, ?, 'SYNCED', ?, ?)
                             """
+                            # Convertir fecha ISO string a datetime para Firebird
+                            fecha_receipt = self._parse_iso_date(receipt.fecha) if receipt.fecha else None
+                            
                             cursor.execute(sql, (
-                                receipt.numeroDocumento, receipt.numeroBusqueda, receipt.fecha,
+                                receipt.numeroDocumento, receipt.numeroBusqueda, fecha_receipt,
                                 receipt.tipoRecepcion, receipt.codigoSuplidor, receipt.nombreSuplidor,
                                 datetime.now(), new_hash
                             ))
