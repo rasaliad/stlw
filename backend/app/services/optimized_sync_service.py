@@ -331,7 +331,10 @@ class OptimizedSyncService:
             logger.info("Iniciando sincronización OPTIMIZADA de recepciones")
             receipts = await sap_stl_client.get_goods_receipts(tipo_recepcion)
             if not receipts:
+                logger.warning("No se obtuvieron recepciones del API SAP-STL")
                 return stats
+            
+            logger.info(f"Obtenidas {len(receipts)} recepciones del API SAP-STL")
             
             with self.db.get_connection() as conn:
                 cursor = conn.cursor()

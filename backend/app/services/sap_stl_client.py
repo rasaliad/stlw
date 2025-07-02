@@ -128,7 +128,12 @@ class SAPSTLClient:
             
             if response.status_code in [200, 201]:
                 content = response.json() if response.content else {}
-                logger.info(f"Contenido recibido: {type(content)} - {len(content) if isinstance(content, list) else 'No es lista'}")
+                if isinstance(content, list):
+                    logger.info(f"Contenido recibido: {len(content)} elementos")
+                    if len(content) == 0:
+                        logger.warning(f"API retornó lista vacía para {endpoint}")
+                else:
+                    logger.info(f"Contenido recibido: {type(content)}")
                 return content
             else:
                 logger.error(f"Error en API SAP-STL: {response.status_code} - {response.text}")
