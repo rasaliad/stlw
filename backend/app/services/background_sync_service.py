@@ -58,7 +58,7 @@ class BackgroundSyncService:
                     )
                     
             enabled_configs = [c for c in configs if c.sync_enabled]
-            logger.info(f"✅ Configuradas {len(enabled_configs)} sincronizaciones automáticas:")
+            logger.info(f"Configuradas {len(enabled_configs)} sincronizaciones automáticas:")
             for config in enabled_configs:
                 logger.info(f"   - {config.entity_type}: cada {config.sync_interval_minutes} minutos")
             
@@ -126,15 +126,15 @@ class BackgroundSyncService:
             elif entity_type == "DELIVERY_NOTES":
                 # Envío de pedidos a SAP (DeliveryNotes)
                 from app.services.sap_delivery_service import sap_delivery_service
-                logger.info("🚚 Iniciando sincronización DELIVERY_NOTES - Procesando pedidos pendientes...")
+                logger.info("DELIVERY_NOTES - Iniciando sincronización - Procesando pedidos pendientes...")
                 result = await sap_delivery_service.process_pending_deliveries(dry_run=False)
-                logger.info(f"🚚 DELIVERY_NOTES resultado: Procesados={result.get('processed', 0)}, Exitosos={result.get('success', 0)}, Fallidos={result.get('failed', 0)}")
+                logger.info(f"DELIVERY_NOTES resultado: Procesados={result.get('processed', 0)}, Exitosos={result.get('success', 0)}, Fallidos={result.get('failed', 0)}")
                 
                 # Log detalles de cada pedido si hay errores
                 if result.get('failed', 0) > 0:
                     for detail in result.get('details', []):
                         if not detail.get('success', True):
-                            logger.error(f"❌ Pedido {detail.get('id_pedido')} falló: {detail.get('message')}")
+                            logger.error(f"ERROR - Pedido {detail.get('id_pedido')} falló: {detail.get('message')}")
                 
                 # Convertir formato del resultado para compatibilidad
                 result = {
@@ -159,7 +159,7 @@ class BackgroundSyncService:
     
     async def check_config_changes(self):
         """Verifica cambios en la configuración y actualiza jobs"""
-        logger.info("🔍 Verificando cambios en configuración de sincronización...")
+        logger.info("Verificando cambios en configuración de sincronización...")
         try:
             configs = sync_config_service.get_all_configs()
             current_jobs = set(self.active_jobs.keys())
@@ -180,7 +180,7 @@ class BackgroundSyncService:
                         if existing_job and hasattr(existing_job.trigger, 'interval'):
                             current_interval = existing_job.trigger.interval.total_seconds() / 60
                             if current_interval != config.sync_interval_minutes:
-                                logger.info(f"📝 Cambiando intervalo {config.entity_type}: {current_interval}min → {config.sync_interval_minutes}min")
+                                logger.info(f"Cambiando intervalo {config.entity_type}: {current_interval}min -> {config.sync_interval_minutes}min")
                                 # Reprogramar con nuevo intervalo
                                 await self.schedule_sync_job(
                                     config.entity_type, 

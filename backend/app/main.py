@@ -21,13 +21,13 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
-    logger.info("🚀 STL Backend iniciando...")
-    logger.info(f"📋 Nivel de logging configurado: {settings.LOG_LEVEL}")
-    logger.info("🔄 Iniciando servicios de sincronización automática...")
+    logger.info("STL Backend iniciando...")
+    logger.info(f"Nivel de logging configurado: {settings.LOG_LEVEL}")
+    logger.info("Iniciando servicios de sincronización automática...")
     await background_sync_service.start_scheduler()
     yield
     # Shutdown
-    logger.info("🛑 Deteniendo servicios de background...")
+    logger.info("Deteniendo servicios de background...")
     await background_sync_service.stop_scheduler()
 
 app = FastAPI(
