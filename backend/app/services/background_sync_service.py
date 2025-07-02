@@ -57,7 +57,10 @@ class BackgroundSyncService:
                         config.sync_interval_minutes
                     )
                     
-            logger.info(f"Configuradas {len([c for c in configs if c.sync_enabled])} sincronizaciones automáticas")
+            enabled_configs = [c for c in configs if c.sync_enabled]
+            logger.info(f"✅ Configuradas {len(enabled_configs)} sincronizaciones automáticas:")
+            for config in enabled_configs:
+                logger.info(f"   - {config.entity_type}: cada {config.sync_interval_minutes} minutos")
             
         except Exception as e:
             logger.error(f"Error cargando configuraciones de sync: {e}")
@@ -123,7 +126,16 @@ class BackgroundSyncService:
             elif entity_type == "DELIVERY_NOTES":
                 # Envío de pedidos a SAP (DeliveryNotes)
                 from app.services.sap_delivery_service import sap_delivery_service
-                result = await sap_delivery_service.process_pending_deliveries()
+                logger.info("🚚 Iniciando sincronización DELIVERY_NOTES - Procesando pedidos pendientes...")
+                result = await sap_delivery_service.process_pending_deliveries(dry_run=False)
+                logger.info(f"🚚 DELIVERY_NOTES resultado: Procesados={result.get('processed', 0)}, Exitosos={result.get('success', 0)}, Fallidos={result.get('failed', 0)}")
+                
+                # Log detalles de cada pedido si hay errores
+                if result.get('failed', 0) > 0:
+                    for detail in result.get('details', []):
+                        if not detail.get('success', True):
+                            logger.error(f"❌ Pedido {detail.get('id_pedido')} falló: {detail.get('message')}")
+                
                 # Convertir formato del resultado para compatibilidad
                 result = {
                     'inserted': result.get('success', 0),
@@ -147,7 +159,7 @@ class BackgroundSyncService:
     
     async def check_config_changes(self):
         """Verifica cambios en la configuración y actualiza jobs"""
-        logger.info("🔍 Ejecutando check_config_changes...")
+        logger.info("🔍 Verificando cambios en configuración de sincronización...")
         try:
             configs = sync_config_service.get_all_configs()
             current_jobs = set(self.active_jobs.keys())

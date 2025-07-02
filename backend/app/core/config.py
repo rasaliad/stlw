@@ -28,6 +28,9 @@ class Settings(BaseSettings):
     
     # Timezone
     TZ: str = os.getenv("TZ", "America/Santo_Domingo")
+    
+    # Logging
+    LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
 
     @property
     def firebird_url(self) -> str:
