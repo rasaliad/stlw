@@ -85,7 +85,7 @@ class SAPGoodsReceiptService:
             id_recepcion = row['id_recepcion']
             
             # Si es la primera vez que vemos esta recepción, guardar la cabecera
-            if not grouped[id_recepcion].get('numeroDocumento'):
+            if not grouped[id_recepcion].get('numeroBusqueda'):
                 grouped[id_recepcion].update({
                     'numeroDocumento': row['numerodocumento'],
                     'numeroBusqueda': row['numerobusqueda'],
@@ -250,7 +250,7 @@ class SAPGoodsReceiptService:
                 
                 results['details'].append({
                     'id_recepcion': id_recepcion,
-                    'numeroDocumento': receipt_data['numeroDocumento'],
+                    'numeroBusqueda': receipt_data['numeroBusqueda'],
                     'success': result['success'],
                     'message': result['message'],
                     'updated_db': updated,
@@ -262,7 +262,7 @@ class SAPGoodsReceiptService:
                 results['failed'] += 1
                 results['details'].append({
                     'id_recepcion': id_recepcion,
-                    'numeroDocumento': receipt_data.get('numeroDocumento'),
+                    'numeroBusqueda': receipt_data.get('numeroBusqueda'),
                     'success': False,
                     'message': f'Error: {str(e)}',
                     'updated_db': False

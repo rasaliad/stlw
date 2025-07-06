@@ -195,8 +195,8 @@ class OptimizedSyncService:
                     try:
                         cursor.execute("""
                             SELECT ID, DATA_HASH FROM STL_DISPATCHES 
-                            WHERE NUMERO_DESPACHO = ? AND TIPO_DESPACHO = ?
-                        """, (dispatch.numeroDespacho, dispatch.tipoDespacho))
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ?
+                        """, (dispatch.numeroBusqueda, dispatch.tipoDespacho))
                         existing = cursor.fetchone()
                         
                         dispatch_data = self._dispatch_to_dict(dispatch)
@@ -257,7 +257,7 @@ class OptimizedSyncService:
                             await self._sync_dispatch_lines_optimized(cursor, dispatch_id, dispatch.lines, stats)
                             
                     except Exception as e:
-                        logger.error(f"Error procesando despacho {dispatch.numeroDespacho}: {str(e)}")
+                        logger.error(f"Error procesando despacho {dispatch.numeroBusqueda}: {str(e)}")
                         logger.error(f"Datos del despacho: fechaCreacion={dispatch.fechaCreacion}, fechaPicking={dispatch.fechaPicking}, fechaCarga={dispatch.fechaCarga}")
                         stats['errors'] += 1
                 
@@ -353,8 +353,8 @@ class OptimizedSyncService:
                     try:
                         cursor.execute("""
                             SELECT ID, DATA_HASH FROM STL_GOODS_RECEIPTS 
-                            WHERE NUMERO_DOCUMENTO = ? AND TIPO_RECEPCION = ?
-                        """, (receipt.numeroDocumento, receipt.tipoRecepcion))
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ?
+                        """, (receipt.numeroBusqueda, receipt.tipoRecepcion))
                         existing = cursor.fetchone()
                         
                         receipt_data = self._receipt_to_dict(receipt)
@@ -407,7 +407,7 @@ class OptimizedSyncService:
                             await self._sync_receipt_lines_optimized(cursor, receipt_id, receipt.lines, stats)
                             
                     except Exception as e:
-                        logger.error(f"Error procesando recepción {receipt.numeroDocumento}: {str(e)}")
+                        logger.error(f"Error procesando recepción {receipt.numeroBusqueda}: {str(e)}")
                         stats['errors'] += 1
                 
                 conn.commit()
@@ -498,8 +498,8 @@ class OptimizedSyncService:
                         # Usa las mismas tablas que GOODS_RECEIPTS
                         cursor.execute("""
                             SELECT ID, DATA_HASH FROM STL_GOODS_RECEIPTS 
-                            WHERE NUMERO_DOCUMENTO = ? AND TIPO_RECEPCION = ?
-                        """, (order.numeroDocumento, order.tipoRecepcion))
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ?
+                        """, (order.numeroBusqueda, order.tipoRecepcion))
                         existing = cursor.fetchone()
                         
                         order_data = self._receipt_to_dict(order)
@@ -526,10 +526,10 @@ class OptimizedSyncService:
                                     new_hash, order_id
                                 ))
                                 stats['updated'] += 1
-                                logger.debug(f"Orden de compra actualizada: {order.numeroDocumento}")
+                                logger.debug(f"Orden de compra actualizada: {order.numeroBusqueda}")
                             else:
                                 stats['skipped'] += 1
-                                logger.debug(f"Orden de compra sin cambios: {order.numeroDocumento}")
+                                logger.debug(f"Orden de compra sin cambios: {order.numeroBusqueda}")
                         else:
                             sql = """
                             INSERT INTO STL_GOODS_RECEIPTS (
@@ -548,13 +548,13 @@ class OptimizedSyncService:
                             cursor.execute("SELECT GEN_ID(GEN_STL_GOODS_RECEIPTS_ID, 0) FROM RDB$DATABASE")
                             order_id = cursor.fetchone()[0]
                             stats['inserted'] += 1
-                            logger.debug(f"Orden de compra insertada: {order.numeroDocumento}")
+                            logger.debug(f"Orden de compra insertada: {order.numeroBusqueda}")
                         
                         if order.lines:
                             await self._sync_receipt_lines_optimized(cursor, order_id, order.lines, stats)
                             
                     except Exception as e:
-                        logger.error(f"Error procesando orden de compra {order.numeroDocumento}: {str(e)}")
+                        logger.error(f"Error procesando orden de compra {order.numeroBusqueda}: {str(e)}")
                         stats['errors'] += 1
                 
                 conn.commit()

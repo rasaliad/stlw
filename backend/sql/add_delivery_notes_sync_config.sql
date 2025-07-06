@@ -11,7 +11,7 @@ INSERT INTO STL_SYNC_CONFIG (
 ) VALUES (
     'DELIVERY_NOTES',
     'Y',  -- Habilitado por defecto
-    5,    -- Cada 5 minutos
+    1,    -- Cada 5 minutos
     NULL,
     CURRENT_TIMESTAMP,
     100,  -- Procesar hasta 100 pedidos por vez

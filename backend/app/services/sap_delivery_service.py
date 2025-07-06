@@ -80,7 +80,7 @@ class SAPDeliveryService:
             id_pedido = row['id_pedido']
             
             # Si es la primera vez que vemos este pedido, guardar la cabecera
-            if not grouped[id_pedido].get('numeroDespacho'):
+            if not grouped[id_pedido].get('numeroBusqueda'):
                 grouped[id_pedido].update({
                     'numeroDespacho': row['numerodespacho'],
                     'numeroBusqueda': row['numerobusqueda'],
@@ -246,7 +246,8 @@ class SAPDeliveryService:
                 
                 results['details'].append({
                     'id_pedido': id_pedido,
-                    'numeroDespacho': delivery_data['numeroDespacho'],
+                    'numeroBusqueda': delivery_data['numeroBusqueda'],
+                    'TipoDespacho': delivery_data['tipoDespacho'],
                     'success': result['success'],
                     'message': result['message'],
                     'updated_db': updated,
@@ -258,7 +259,8 @@ class SAPDeliveryService:
                 results['failed'] += 1
                 results['details'].append({
                     'id_pedido': id_pedido,
-                    'numeroDespacho': delivery_data.get('numeroDespacho'),
+                    'numeroBusqueda': delivery_data.get('numeroBusqueda'),
+                    'TipoDespacho': delivery_data.get('tipoDespacho'),
                     'success': False,
                     'message': f'Error: {str(e)}',
                     'updated_db': False

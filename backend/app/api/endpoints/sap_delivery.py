@@ -65,7 +65,8 @@ async def get_pending_deliveries(
         for id_pedido, data in grouped.items():
             summary.append({
                 'id_pedido': id_pedido,
-                'numeroDespacho': data['numeroDespacho'],
+                'numeroBusqueda': data['numeroBusqueda'],
+                'tipoDespacho': data['tipoDespacho'],
                 'codigoCliente': data['codigoCliente'],
                 'nombreCliente': data['nombreCliente'],
                 'cantidadLineas': len(data['lines']),

@@ -33,18 +33,18 @@ class SAPSTLSyncService:
             if conn:
                 conn.close()
     
-    async def log_sync_operation(self, entity_type: str, entity_id: str, operation: str, 
+    async def log_sync_operation(self, entity_type: str, entity_id: str, entity_document: str, operation: str, 
                                 status: str, error_message: str = None, processing_time: int = None):
         """Registra operaciones de sincronización"""
         try:
             async with self.get_db_connection() as conn:
                 cursor = conn.cursor()
                 sql = """
-                INSERT INTO STL_SYNC_LOG (ENTITY_TYPE, ENTITY_ID, OPERATION, STATUS, 
+                INSERT INTO STL_SYNC_LOG (ENTITY_TYPE, ENTITY_ID, ENTITY_ID, OPERATION, STATUS, 
                                         ERROR_MESSAGE, PROCESSING_TIME, SYNC_DATE)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """
-                cursor.execute(sql, (entity_type, entity_id, operation, status, 
+                cursor.execute(sql, (entity_type, entity_id, entity_document, operation, status, 
                                error_message, processing_time, datetime.now()))
                 conn.commit()
         except Exception as e:
@@ -192,23 +192,23 @@ class SAPSTLSyncService:
                 for dispatch in dispatches:
                     try:
                         # Verificar si existe
-                        cursor.execute("SELECT ID FROM STL_DISPATCHES WHERE NUMERO_DESPACHO = ? AND TIPO_DESPACHO = ?", 
-                                     (dispatch.numeroDespacho, dispatch.tipoDespacho))
+                        cursor.execute("SELECT ID FROM STL_DISPATCHES WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ?", 
+                                     (dispatch.numeroBusqueda, dispatch.tipoDespacho))
                         existing = cursor.fetchone()
                         
                         if existing:
                             # Actualizar
                             sql = """
                             UPDATE STL_DISPATCHES SET 
-                                NUMERO_BUSQUEDA = ?, FECHA_CREACION = ?, FECHA_PICKING = ?,
+                                NUMERO_DESPACHO = ?, FECHA_CREACION = ?, FECHA_PICKING = ?,
                                 FECHA_CARGA = ?, CODIGO_CLIENTE = ?, NOMBRE_CLIENTE = ?,
                                 UPDATED_AT = ?, SYNC_STATUS = 'SYNCED', LAST_SYNC_AT = ?
-                            WHERE NUMERO_DESPACHO = ? AND TIPO_DESPACHO = ?
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ?
                             """
                             cursor.execute(sql, (
-                                dispatch.numeroBusqueda, dispatch.fechaCreacion, dispatch.fechaPicking,
+                                dispatch.numeroDespacho, dispatch.fechaCreacion, dispatch.fechaPicking,
                                 dispatch.fechaCarga, dispatch.codigoCliente, dispatch.nombreCliente,
-                                datetime.now(), datetime.now(), dispatch.numeroDespacho, dispatch.tipoDespacho
+                                datetime.now(), datetime.now(), dispatch.numeroBusqueda, dispatch.tipoDespacho
                             ))
                             dispatch_id = existing[0]
                             stats['updated'] += 1
@@ -250,11 +250,11 @@ class SAPSTLSyncService:
                                     line.uoMCode, line.uoMEntry
                                 ))
                         
-                        await self.log_sync_operation('DISPATCHES', str(dispatch.numeroDespacho), 'FETCH', 'SUCCESS')
+                        await self.log_sync_operation('DISPATCHES', str(dispatch.numeroBusqueda), str(dispatch.tipoDespacho), 'FETCH', 'SUCCESS')
                         
                     except Exception as e:
-                        logger.error(f"Error sincronizando dispatch {dispatch.numeroDespacho}: {str(e)}")
-                        await self.log_sync_operation('DISPATCHES', str(dispatch.numeroDespacho), 'FETCH', 'ERROR', str(e))
+                        logger.error(f"Error sincronizando dispatch {dispatch.numeroBusqueda}: {str(e)}")
+                        await self.log_sync_operation('DISPATCHES', str(dispatch.numeroBusqueda), str(dispatch.tipoDespacho), 'FETCH', 'ERROR', str(e))
                         stats['errors'] += 1
                 
                 conn.commit()
@@ -288,23 +288,23 @@ class SAPSTLSyncService:
                 for receipt in receipts:
                     try:
                         # Verificar si existe
-                        cursor.execute("SELECT ID FROM STL_GOODS_RECEIPTS WHERE NUMERO_DOCUMENTO = ?", 
-                                     (receipt.numeroDocumento,))
+                        cursor.execute("SELECT ID FROM STL_GOODS_RECEIPTS WHERE NUMERO_BUSQUEDA = ?", 
+                                     (receipt.numeroBusqueda,))
                         existing = cursor.fetchone()
                         
                         if existing:
                             # Actualizar
                             sql = """
                             UPDATE STL_GOODS_RECEIPTS SET 
-                                NUMERO_BUSQUEDA = ?, FECHA = ?, TIPO_RECEPCION = ?,
+                                NUMERO_DOCUMENTO = ?, FECHA = ?, 
                                 CODIGO_SUPLIDOR = ?, NOMBRE_SUPLIDOR = ?,
                                 UPDATED_AT = ?, SYNC_STATUS = 'SYNCED', LAST_SYNC_AT = ?
-                            WHERE NUMERO_DOCUMENTO = ?
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ?
                             """
                             cursor.execute(sql, (
-                                receipt.numeroBusqueda, receipt.fecha, receipt.tipoRecepcion,
+                                receipt.numeroDocumento, receipt.fecha,
                                 receipt.codigoSuplidor, receipt.nombreSuplidor,
-                                datetime.now(), datetime.now(), receipt.numeroDocumento
+                                datetime.now(), datetime.now(), receipt.numeroBusqueda, receipt.tipoRecepcion
                             ))
                             receipt_id = existing[0]
                             stats['updated'] += 1
@@ -347,11 +347,11 @@ class SAPSTLSyncService:
                                     line.uoMCode, line.diasVencimiento
                                 ))
                         
-                        await self.log_sync_operation('GOODS_RECEIPTS', str(receipt.numeroDocumento), 'FETCH', 'SUCCESS')
+                        await self.log_sync_operation('GOODS_RECEIPTS', str(receipt.numeroBusqueda), str(receipt.tipoRecepcion), 'FETCH', 'SUCCESS')
                         
                     except Exception as e:
-                        logger.error(f"Error sincronizando receipt {receipt.numeroDocumento}: {str(e)}")
-                        await self.log_sync_operation('GOODS_RECEIPTS', str(receipt.numeroDocumento), 'FETCH', 'ERROR', str(e))
+                        logger.error(f"Error sincronizando receipt {receipt.numeroBusqueda}: {str(e)}")
+                        await self.log_sync_operation('GOODS_RECEIPTS', str(receipt.numeroBusqueda), str(receipt.tipoRecepcion), 'FETCH', 'ERROR', str(e))
                         stats['errors'] += 1
                 
                 conn.commit()
