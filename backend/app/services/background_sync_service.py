@@ -143,6 +143,26 @@ class BackgroundSyncService:
                     'skipped': 0,
                     'errors': result.get('failed', 0)
                 }
+            elif entity_type == "GOODS_RECEIPTS_SENT":
+                # Envío de recepciones a SAP (GoodsReceipts)
+                from app.services.sap_goods_receipt_service import sap_goods_receipt_service
+                logger.info("GOODS_RECEIPTS_SENT - Iniciando sincronización - Procesando recepciones pendientes...")
+                result = await sap_goods_receipt_service.process_pending_receipts(dry_run=False)
+                logger.info(f"GOODS_RECEIPTS_SENT resultado: Procesados={result.get('processed', 0)}, Exitosos={result.get('success', 0)}, Fallidos={result.get('failed', 0)}")
+                
+                # Log detalles de cada recepción si hay errores
+                if result.get('failed', 0) > 0:
+                    for detail in result.get('details', []):
+                        if not detail.get('success', True):
+                            logger.error(f"ERROR - Recepción {detail.get('id_recepcion')} falló: {detail.get('message')}")
+                
+                # Convertir formato del resultado para compatibilidad
+                result = {
+                    'inserted': result.get('success', 0),
+                    'updated': 0,
+                    'skipped': 0,
+                    'errors': result.get('failed', 0)
+                }
             
             success = result.get('errors', 0) == 0
             

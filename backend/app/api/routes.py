@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.endpoints import auth, users, dispatches, goods_receipts, items, stl_pedidos, sap_delivery
+from app.api.endpoints import auth, users, dispatches, goods_receipts, items, stl_pedidos, sap_delivery, sap_goods_receipt
 from app.api.v1.endpoints import sync_config
 
 router = APIRouter()
@@ -12,3 +12,4 @@ router.include_router(goods_receipts.router, prefix="/goods-receipts", tags=["go
 router.include_router(items.router, prefix="/items", tags=["items"])
 router.include_router(stl_pedidos.router, prefix="/stl/pedidos", tags=["stl-pedidos"])
 router.include_router(sap_delivery.router, prefix="/sap/delivery", tags=["sap-delivery"])
+router.include_router(sap_goods_receipt.router, prefix="/sap/goods-receipt", tags=["sap-goods-receipt"])

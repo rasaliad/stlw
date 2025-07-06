@@ -277,10 +277,38 @@ class SAPSTLClient:
             return [GoodsReceiptSTL(**receipt) for receipt in data]
         return None
     
-    async def create_goods_receipt(self, receipt: GoodsReceiptSTL) -> bool:
-        """Crea una recepción de mercancía"""
-        data = await self._make_request("POST", "/Transaction/GoodsReceipt", json=receipt.dict())
-        return data is not None
+    async def create_goods_receipt(self, receipt: GoodsReceiptSTL) -> Dict[str, Any]:
+        """Crea una recepción de mercancía y retorna la respuesta completa"""
+        try:
+            response = await self.client.post(
+                f"{self.base_url}/Transaction/GoodsReceipt",
+                json=receipt.dict(),
+                headers=self._get_headers()
+            )
+            
+            success = response.status_code in [200, 201, 204]  # Solo códigos de éxito reales
+            
+            # Log detallado para debugging
+            logger.info(f"SAP GoodsReceipt Response - Status: {response.status_code}, Success: {success}")
+            if response.text:
+                logger.info(f"SAP GoodsReceipt Response Text: {response.text}")
+            else:
+                logger.info("SAP GoodsReceipt Response: Sin contenido")
+            
+            return {
+                'success': success,
+                'status_code': response.status_code,
+                'data': response.json() if response.content else None,
+                'message': response.text if response.status_code not in [200, 201, 204] else 'OK'
+            }
+        except Exception as e:
+            logger.error(f"Error creando GoodsReceipt: {str(e)}")
+            return {
+                'success': False,
+                'status_code': 500,
+                'data': None,
+                'message': str(e)
+            }
     
     async def create_goods_return(self, receipt: GoodsReceiptSTL) -> Optional[List[GoodsReceiptSTL]]:
         """Crea una devolución de mercancía"""
