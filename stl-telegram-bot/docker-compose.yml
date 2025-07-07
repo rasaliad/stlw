@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  stl-telegram-bot:
+    build: .
+    container_name: stl-telegram-bot
+    restart: unless-stopped
+    environment:
+      # Base de datos STL (misma configuración que backend)
+      - DB_HOST=host.docker.internal
+      - DB_PORT=3050
+      - DB_PATH=C:/App/STL/Datos/DATOS_STL.FDB
+      - DB_USER=sysdba
+      - DB_PASSWORD=masterkey
+      
+      # Telegram Bot
+      - TELEGRAM_BOT_TOKEN=8038672304:AAHZuWvVlP0O94K-8J_wNx07fivZNb0fR_U
+      
+      # Configuración de logs
+      - LOG_LEVEL=INFO
+      - LOG_FILE=stl_telegram_bot.log
+      
+      # Intervalos de procesamiento (segundos)
+      - QUEUE_PROCESS_INTERVAL=60
+      - HEALTH_CHECK_INTERVAL=300
+    
+    volumes:
+      # Logs persistentes
+      - ./logs:/app/logs
+    
+    networks:
+      - stlw_default
+
+# Usar la misma red que el proyecto STL
+networks:
+  stlw_default:
+    external: true

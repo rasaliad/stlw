@@ -1,6 +1,5 @@
 from pydantic import BaseModel, Field
 from typing import Optional, List
-from datetime import datetime
 
 
 # Autenticación
@@ -11,7 +10,7 @@ class UserLoginRequest(BaseModel):
 
 class ResponseAuth(BaseModel):
     token: Optional[str] = None
-    expirationDate: datetime
+    expirationDate: Optional[str] = None  # Cambiado a str para formato ISO
     userName: Optional[str] = None
 
 
@@ -71,7 +70,7 @@ class GoodsReceiptLineSTL(BaseModel):
 class GoodsReceiptSTL(BaseModel):
     numeroDocumento: Optional[int] = None
     numeroBusqueda: Optional[int] = None
-    fecha: Optional[datetime] = None
+    fecha: Optional[str] = None  # Cambiado a str para formato ISO
     tipoRecepcion: Optional[int] = None
     codigoSuplidor: Optional[str] = None
     nombreSuplidor: Optional[str] = None
@@ -86,7 +85,7 @@ class InventoryGoodsIssueLineSTL(BaseModel):
 
 # Salida de Inventario
 class InventoryGoodsIssueSTL(BaseModel):
-    fechaCreacion: Optional[datetime] = None
+    fechaCreacion: Optional[str] = None  # Cambiado a str para formato ISO
     tipoDespacho: int
     lines: Optional[List[InventoryGoodsIssueLineSTL]] = None
 
@@ -99,7 +98,7 @@ class InventoryGoodsReceiptLineSTL(BaseModel):
 
 # Entrada de Inventario
 class InventoryGoodsReceiptSTL(BaseModel):
-    fechaCreacion: Optional[datetime] = None
+    fechaCreacion: Optional[str] = None  # Cambiado a str para formato ISO
     tipoRecepcion: int
     lines: Optional[List[InventoryGoodsReceiptLineSTL]] = None
 
@@ -113,7 +112,7 @@ class InventoryTransferLine(BaseModel):
 
 # Transferencia de Inventario
 class InventoryTransfer(BaseModel):
-    fechaCreacion: Optional[datetime] = None
+    fechaCreacion: Optional[str] = None  # Cambiado a str para formato ISO
     tipoDespacho: int
     lines: Optional[List[InventoryTransferLine]] = None
 

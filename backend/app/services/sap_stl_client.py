@@ -50,7 +50,22 @@ class SAPSTLClient:
                 
                 auth_response = ResponseAuth(**response_data)
                 self.token = auth_response.token
-                self.token_expiry = auth_response.expirationDate
+                # Parsear la fecha de expiración si viene como string
+                if auth_response.expirationDate:
+                    try:
+                        # Intentar parsear diferentes formatos de fecha ISO
+                        if isinstance(auth_response.expirationDate, str):
+                            if 'T' in auth_response.expirationDate:
+                                self.token_expiry = datetime.fromisoformat(auth_response.expirationDate.replace('Z', '+00:00'))
+                            else:
+                                self.token_expiry = datetime.strptime(auth_response.expirationDate, '%Y-%m-%d')
+                        else:
+                            self.token_expiry = auth_response.expirationDate
+                    except Exception as e:
+                        logger.error(f"Error parseando fecha de expiración: {e}")
+                        self.token_expiry = None
+                else:
+                    self.token_expiry = None
                 
                 logger.info(f"Login exitoso. Token: {self.token[:20] if self.token else 'None'}...")
                 logger.info(f"Token expira: {self.token_expiry}")

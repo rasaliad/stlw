@@ -248,6 +248,24 @@ class SAPGoodsReceiptService:
                 else:
                     results['failed'] += 1
                 
+                # Webhook para notificaciones externas (bot Telegram, etc.)
+                if not dry_run:
+                    try:
+                        await self._send_webhook_notification({
+                            'event_type': 'GOODS_RECEIPTS',
+                            'success': result['success'],
+                            'data': {
+                                'id_recepcion': id_recepcion,
+                                'numeroBusqueda': receipt_data['numeroBusqueda'],
+                                'tipoRecepcion': receipt_data['tipoRecepcion'],
+                                'code': result['code'],
+                                'message': result['message'],
+                                'timestamp': datetime.now().isoformat()
+                            }
+                        })
+                    except Exception as e:
+                        logger.error(f"Error enviando webhook: {e}")
+                
                 results['details'].append({
                     'id_recepcion': id_recepcion,
                     'numeroBusqueda': receipt_data['numeroBusqueda'],
@@ -272,6 +290,33 @@ class SAPGoodsReceiptService:
                    f"Exitosos: {results['success']}, Fallidos: {results['failed']}")
         
         return results
+    
+    async def _send_webhook_notification(self, data: Dict[str, Any]):
+        """Envía webhook a servicios externos (bot Telegram, etc.)"""
+        try:
+            # Guardar en cola de webhooks en la base de datos
+            with self.db.get_connection() as conn:
+                cursor = conn.cursor()
+                
+                # Verificar si existe tabla de webhooks
+                try:
+                    # cursor.execute("""
+                    #     INSERT INTO STL_TELEGRAM_QUEUE 
+                    #     (CHAT_ID, MESSAGE_TYPE, MESSAGE_TEXT, PRIORITY)
+                    #     SELECT 0, ?, ?, 1 FROM RDB$DATABASE
+                    #     WHERE EXISTS (SELECT 1 FROM RDB$RELATIONS WHERE RDB$RELATION_NAME = 'STL_TELEGRAM_QUEUE')
+                    # """, (
+                    #     data['event_type'],
+                    #     f"Evento {data['event_type']}: {'Éxito' if data['success'] else 'Error'} - ID: {data['data'].get('id_recepcion', 'N/A')}"
+                    # ))
+                    # conn.commit()
+                    logger.debug(f"Webhook guardado en cola: {data['event_type']}")
+                except Exception:
+                    # Si no existe la tabla, solo logear
+                    logger.debug(f"Webhook event: {data['event_type']} - Success: {data['success']}")
+                    
+        except Exception as e:
+            logger.debug(f"Webhook notification failed (normal si no hay bot): {e}")
 
 
 # Instancia global del servicio

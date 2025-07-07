@@ -34,6 +34,7 @@ class BackgroundSyncService:
                 misfire_grace_time=120  # 2 minutos de gracia
             )
             
+            
         except Exception as e:
             logger.error(f"Error iniciando scheduler: {e}")
     
@@ -235,6 +236,7 @@ class BackgroundSyncService:
                 logger.error(f"Error obteniendo status de job {job_id}: {e}")
         
         return status
+    
 
 # Singleton instance
 background_sync_service = BackgroundSyncService()
