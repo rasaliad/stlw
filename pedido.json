@@ -1,0 +1,75 @@
+{
+  "numeroDespacho": 1187,
+  "numeroBusqueda": 1004,
+  "fechaCreacion": "2025-07-10T17:51:00Z",
+  "fechaPicking": "2025-07-10T00:00:00Z",
+  "fechaCarga": null,
+  "codigoCliente": "CL-01016",
+  "nombreCliente": "PLAYA GRANDE GOLF RESORT INC",
+  "tipoDespacho": 201,
+  "lines": [
+    {
+      "codigoProducto": "44",
+      "nombreProducto": "MUSLOS DE POLLO",
+      "almacen": "01",
+      "cantidadUMB": 80,
+      "lineNum": 0,
+      "uoMCode": "Libra",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "98",
+      "nombreProducto": "HAMBURGUESAS CAB 6 OZ",
+      "almacen": "01",
+      "cantidadUMB": 24,
+      "lineNum": 1,
+      "uoMCode": "Libra",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "140",
+      "nombreProducto": "TOCINETA NO. 1",
+      "almacen": "01",
+      "cantidadUMB": 15,
+      "lineNum": 2,
+      "uoMCode": "Libra",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "28",
+      "nombreProducto": "PECHUGA DE PAVO",
+      "almacen": "01",
+      "cantidadUMB": 60,
+      "lineNum": 3,
+      "uoMCode": "Libra",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "466",
+      "nombreProducto": "PECHUGA DE POLLO AMERICANA",
+      "almacen": "01",
+      "cantidadUMB": 80,
+      "lineNum": 4,
+      "uoMCode": "Libra",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "192",
+      "nombreProducto": "CARNE MOLIDA 80/20 CAB",
+      "almacen": "01",
+      "cantidadUMB": 40,
+      "lineNum": 5,
+      "uoMCode": "Libra",
+      "uoMEntry": 2
+    },
+    {
+      "codigoProducto": "37",
+      "nombreProducto": "LOMO DE CERDO",
+      "almacen": "01",
+      "cantidadUMB": 40,
+      "lineNum": 6,
+      "uoMCode": "Libra",
+      "uoMEntry": 2
+    }
+  ]
+}
