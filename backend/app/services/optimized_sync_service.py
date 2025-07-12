@@ -195,8 +195,8 @@ class OptimizedSyncService:
                     try:
                         cursor.execute("""
                             SELECT ID, DATA_HASH FROM STL_DISPATCHES 
-                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ?
-                        """, (dispatch.numeroBusqueda, dispatch.tipoDespacho))
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ? AND NUMERO_DESPACHO = ?
+                        """, (dispatch.numeroBusqueda, dispatch.tipoDespacho, dispatch.numeroDespacho))
                         existing = cursor.fetchone()
                         
                         dispatch_data = self._dispatch_to_dict(dispatch)
@@ -353,8 +353,8 @@ class OptimizedSyncService:
                     try:
                         cursor.execute("""
                             SELECT ID, DATA_HASH FROM STL_GOODS_RECEIPTS 
-                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ?
-                        """, (receipt.numeroBusqueda, receipt.tipoRecepcion))
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ? AND NUMERO_DOCUMENTO = ?
+                        """, (receipt.numeroBusqueda, receipt.tipoRecepcion, receipt.numeroDocumento))
                         existing = cursor.fetchone()
                         
                         receipt_data = self._receipt_to_dict(receipt)
@@ -498,8 +498,8 @@ class OptimizedSyncService:
                         # Usa las mismas tablas que GOODS_RECEIPTS
                         cursor.execute("""
                             SELECT ID, DATA_HASH FROM STL_GOODS_RECEIPTS 
-                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ?
-                        """, (order.numeroBusqueda, order.tipoRecepcion))
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ? AND NUMERO_DOCUMENTO = ?
+                        """, (order.numeroBusqueda, order.tipoRecepcion, order.numeroDocumento))
                         existing = cursor.fetchone()
                         
                         order_data = self._receipt_to_dict(order)

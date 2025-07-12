@@ -76,9 +76,10 @@ async def sync_manual_dispatch(
         )
 
 
-@router.get("/dispatch/{tipo_despacho}/{numero_despacho}")
+@router.get("/dispatch/{tipo_despacho}/{numero_busqueda}/{numero_despacho}")
 async def check_dispatch_exists(
     tipo_despacho: int,
+    numero_busqueda: int,
     numero_despacho: int,
     current_user: User = Depends(get_current_active_user)
 ) -> Dict[str, Any]:
@@ -97,8 +98,8 @@ async def check_dispatch_exists(
                 SELECT ID, NUMERO_BUSQUEDA, CODIGO_CLIENTE, NOMBRE_CLIENTE, 
                        FECHA_CREACION, SYNC_STATUS, LAST_SYNC_AT
                 FROM STL_DISPATCHES 
-                WHERE NUMERO_DESPACHO = ? AND TIPO_DESPACHO = ?
-            """, (numero_despacho, tipo_despacho))
+                WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ? AND NUMERO_DESPACHO = ?
+            """, (numero_busqueda, tipo_despacho, numero_despacho))
             
             row = cursor.fetchone()
             

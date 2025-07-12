@@ -36,8 +36,8 @@ class ManualDispatchService:
                 # Verificar si el despacho ya existe
                 cursor.execute("""
                     SELECT ID FROM STL_DISPATCHES 
-                    WHERE NUMERO_DESPACHO = ? AND TIPO_DESPACHO = ?
-                """, (dispatch_data.numeroDespacho, dispatch_data.tipoDespacho))
+                    WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ? AND NUMERO_DESPACHO = ?
+                """, (dispatch_data.numeroBusqueda, dispatch_data.tipoDespacho, dispatch_data.numeroDespacho))
                 
                 existing = cursor.fetchone()
                 if existing:
@@ -77,8 +77,8 @@ class ManualDispatchService:
                 # Obtener el ID del despacho recién insertado
                 cursor.execute("""
                     SELECT ID FROM STL_DISPATCHES 
-                    WHERE NUMERO_DESPACHO = ? AND TIPO_DESPACHO = ?
-                """, (dispatch_data.numeroDespacho, dispatch_data.tipoDespacho))
+                    WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ? AND NUMERO_DESPACHO = ?
+                """, (dispatch_data.numeroBusqueda, dispatch_data.tipoDespacho, dispatch_data.numeroDespacho))
                 
                 dispatch_id = cursor.fetchone()[0]
                 

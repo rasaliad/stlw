@@ -192,23 +192,24 @@ class SAPSTLSyncService:
                 for dispatch in dispatches:
                     try:
                         # Verificar si existe
-                        cursor.execute("SELECT ID FROM STL_DISPATCHES WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ?", 
-                                     (dispatch.numeroBusqueda, dispatch.tipoDespacho))
+                        cursor.execute("SELECT ID FROM STL_DISPATCHES WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ? AND NUMERO_DESPACHO = ?", 
+                                     (dispatch.numeroBusqueda, dispatch.tipoDespacho, dispatch.numeroDespacho))
                         existing = cursor.fetchone()
                         
                         if existing:
-                            # Actualizar
+                            # Actualizar (sin NUMERO_DESPACHO ya que es parte de la búsqueda)
                             sql = """
                             UPDATE STL_DISPATCHES SET 
-                                NUMERO_DESPACHO = ?, FECHA_CREACION = ?, FECHA_PICKING = ?,
+                                FECHA_CREACION = ?, FECHA_PICKING = ?,
                                 FECHA_CARGA = ?, CODIGO_CLIENTE = ?, NOMBRE_CLIENTE = ?,
                                 UPDATED_AT = ?, SYNC_STATUS = 'SYNCED', LAST_SYNC_AT = ?
-                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ?
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_DESPACHO = ? AND NUMERO_DESPACHO = ?
                             """
                             cursor.execute(sql, (
-                                dispatch.numeroDespacho, dispatch.fechaCreacion, dispatch.fechaPicking,
+                                dispatch.fechaCreacion, dispatch.fechaPicking,
                                 dispatch.fechaCarga, dispatch.codigoCliente, dispatch.nombreCliente,
-                                datetime.now(), datetime.now(), dispatch.numeroBusqueda, dispatch.tipoDespacho
+                                datetime.now(), datetime.now(), 
+                                dispatch.numeroBusqueda, dispatch.tipoDespacho, dispatch.numeroDespacho
                             ))
                             dispatch_id = existing[0]
                             stats['updated'] += 1
@@ -288,23 +289,24 @@ class SAPSTLSyncService:
                 for receipt in receipts:
                     try:
                         # Verificar si existe
-                        cursor.execute("SELECT ID FROM STL_GOODS_RECEIPTS WHERE NUMERO_BUSQUEDA = ?", 
-                                     (receipt.numeroBusqueda,))
+                        cursor.execute("SELECT ID FROM STL_GOODS_RECEIPTS WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ? AND NUMERO_DOCUMENTO = ?", 
+                                     (receipt.numeroBusqueda, receipt.tipoRecepcion, receipt.numeroDocumento))
                         existing = cursor.fetchone()
                         
                         if existing:
-                            # Actualizar
+                            # Actualizar (sin NUMERO_DOCUMENTO ya que es parte de la búsqueda)
                             sql = """
                             UPDATE STL_GOODS_RECEIPTS SET 
-                                NUMERO_DOCUMENTO = ?, FECHA = ?, 
+                                FECHA = ?, 
                                 CODIGO_SUPLIDOR = ?, NOMBRE_SUPLIDOR = ?,
                                 UPDATED_AT = ?, SYNC_STATUS = 'SYNCED', LAST_SYNC_AT = ?
-                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ?
+                            WHERE NUMERO_BUSQUEDA = ? AND TIPO_RECEPCION = ? AND NUMERO_DOCUMENTO = ?
                             """
                             cursor.execute(sql, (
-                                receipt.numeroDocumento, receipt.fecha,
+                                receipt.fecha,
                                 receipt.codigoSuplidor, receipt.nombreSuplidor,
-                                datetime.now(), datetime.now(), receipt.numeroBusqueda, receipt.tipoRecepcion
+                                datetime.now(), datetime.now(), 
+                                receipt.numeroBusqueda, receipt.tipoRecepcion, receipt.numeroDocumento
                             ))
                             receipt_id = existing[0]
                             stats['updated'] += 1
