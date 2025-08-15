@@ -40,6 +40,7 @@ class SAPDeliveryService:
                    linenum,
                    uomcode,
                    uomentry,
+                   cantidad_lpn,
                    id_cliente,
                    id_pedido,
                    id_pedido_detalle,
@@ -101,7 +102,8 @@ class SAPDeliveryService:
                 'cantidadUMB': float(row['cantidadumb']) if row['cantidadumb'] else 0,
                 'lineNum': row['linenum'],
                 'uoMCode': row['uomcode'],
-                'uoMEntry': row['uomentry']
+                'uoMEntry': row['uomentry'],
+                'cantidadCajas': row['cantidad_lpn']
             })
         
         return dict(grouped)
