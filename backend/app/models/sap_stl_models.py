@@ -37,7 +37,7 @@ class DispatchLineSTL(BaseModel):
     lineNum: Optional[int] = None
     uoMCode: Optional[str] = None
     uoMEntry: Optional[int] = None
-    cantidadCajas: Optional[int] = None
+    cantidadCajas: Optional[str] = None
 
 
 # Despachos

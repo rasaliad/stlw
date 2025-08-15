@@ -103,7 +103,7 @@ class SAPDeliveryService:
                 'lineNum': row['linenum'],
                 'uoMCode': row['uomcode'],
                 'uoMEntry': row['uomentry'],
-                'cantidadCajas': row['cantidad_lpn']
+                'cantidadCajas': str(row['cantidad_lpn']) if row['cantidad_lpn'] is not None else None
             })
         
         return dict(grouped)
