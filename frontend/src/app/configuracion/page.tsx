@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch'
 import { api } from '@/lib/api'
 import { User } from '@/types/user'
 import { Save, RefreshCw } from 'lucide-react'
+import SyncManualDispatch from '@/components/sync-manual-dispatch'
 
 interface SyncConfig {
   id: number
@@ -216,6 +217,18 @@ export default function ConfiguracionPage() {
             </CardContent>
           </Card>
         ))}
+
+        {/* Sincronización Manual de Pedidos */}
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-xl font-semibold tracking-tight">Sincronización Manual</h3>
+            <p className="text-muted-foreground">
+              Sincronizar pedidos específicos desde SAP sin esperar el proceso automático
+            </p>
+          </div>
+          
+          <SyncManualDispatch />
+        </div>
       </div>
     </AppLayout>
   )

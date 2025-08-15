@@ -271,6 +271,133 @@ class OptimizedSyncService:
         logger.info(f"Sincronización despachos completada en {duration.total_seconds():.2f}s - Stats: {stats}")
         return stats
     
+    async def sync_single_dispatch(self, tipo_despacho: int, doc_num: int) -> Dict[str, Any]:
+        """Sincroniza un despacho específico desde SAP usando tipoDespacho + docNum"""
+        start_time = datetime.now()
+        
+        try:
+            logger.info(f"Iniciando sincronización individual - tipoDespacho: {tipo_despacho}, docNum: {doc_num}")
+            
+            # Obtener el pedido específico de SAP
+            dispatch = await sap_stl_client.get_order_by_id(tipo_despacho, doc_num)
+            
+            if not dispatch:
+                return {
+                    'success': False,
+                    'message': f'No se encontró el pedido con tipoDespacho={tipo_despacho} y docNum={doc_num} en SAP',
+                    'data': None
+                }
+            
+            stats = {'inserted': 0, 'updated': 0, 'skipped': 0, 'lines_inserted': 0, 'lines_updated': 0, 'lines_skipped': 0, 'errors': 0}
+            
+            # Procesar el pedido usando la misma lógica del sync masivo
+            with self.db.get_connection() as conn:
+                cursor = conn.cursor()
+                
+                try:
+                    # Verificar si ya existe en STL
+                    cursor.execute("""
+                        SELECT ID, DATA_HASH FROM STL_DISPATCHES 
+                        WHERE NUMERO_DESPACHO = ? AND TIPO_DESPACHO = ?
+                    """, (dispatch.numeroDespacho, dispatch.tipoDespacho))
+                    existing = cursor.fetchone()
+                    
+                    dispatch_data = self._dispatch_to_dict(dispatch)
+                    new_hash = self._calculate_hash(dispatch_data)
+                    
+                    if existing:
+                        dispatch_id = existing[0]
+                        existing_hash = existing[1] if existing[1] else ""
+                        
+                        if new_hash != existing_hash:
+                            # Actualizar despacho existente
+                            sql = """
+                            UPDATE STL_DISPATCHES SET 
+                                NUMERO_BUSQUEDA = ?, FECHA_CREACION = ?, FECHA_PICKING = ?,
+                                FECHA_CARGA = ?, CODIGO_CLIENTE = ?, NOMBRE_CLIENTE = ?,
+                                UPDATED_AT = ?, SYNC_STATUS = 'SYNCED', LAST_SYNC_AT = ?, DATA_HASH = ?
+                            WHERE ID = ?
+                            """
+                            # Convertir fechas ISO string a datetime para Firebird
+                            fecha_creacion = self._parse_iso_date(dispatch.fechaCreacion) if dispatch.fechaCreacion else None
+                            fecha_picking = self._parse_iso_date(dispatch.fechaPicking) if dispatch.fechaPicking else None
+                            fecha_carga = self._parse_iso_date(dispatch.fechaCarga) if dispatch.fechaCarga else None
+                            
+                            cursor.execute(sql, (
+                                dispatch.numeroBusqueda, fecha_creacion, fecha_picking,
+                                fecha_carga, dispatch.codigoCliente, dispatch.nombreCliente,
+                                datetime.now(), datetime.now(), new_hash, dispatch_id
+                            ))
+                            stats['updated'] += 1
+                            action = 'actualizado'
+                        else:
+                            stats['skipped'] += 1
+                            action = 'sin cambios'
+                    else:
+                        # Insertar nuevo despacho
+                        sql = """
+                        INSERT INTO STL_DISPATCHES (
+                            NUMERO_DESPACHO, NUMERO_BUSQUEDA, FECHA_CREACION, FECHA_PICKING,
+                            FECHA_CARGA, CODIGO_CLIENTE, NOMBRE_CLIENTE, TIPO_DESPACHO,
+                            SYNC_STATUS, LAST_SYNC_AT, DATA_HASH
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'SYNCED', ?, ?)
+                        """
+                        # Convertir fechas ISO string a datetime para Firebird
+                        fecha_creacion = self._parse_iso_date(dispatch.fechaCreacion) if dispatch.fechaCreacion else None
+                        fecha_picking = self._parse_iso_date(dispatch.fechaPicking) if dispatch.fechaPicking else None
+                        fecha_carga = self._parse_iso_date(dispatch.fechaCarga) if dispatch.fechaCarga else None
+                        
+                        cursor.execute(sql, (
+                            dispatch.numeroDespacho, dispatch.numeroBusqueda, fecha_creacion,
+                            fecha_picking, fecha_carga, dispatch.codigoCliente,
+                            dispatch.nombreCliente, dispatch.tipoDespacho, datetime.now(), new_hash
+                        ))
+                        cursor.execute("SELECT GEN_ID(GEN_STL_DISPATCHES_ID, 0) FROM RDB$DATABASE")
+                        dispatch_id = cursor.fetchone()[0]
+                        stats['inserted'] += 1
+                        action = 'insertado'
+                    
+                    # Sincronizar líneas del despacho
+                    if dispatch.lines:
+                        await self._sync_dispatch_lines_optimized(cursor, dispatch_id, dispatch.lines, stats)
+                    
+                    conn.commit()
+                    
+                    duration = datetime.now() - start_time
+                    
+                    return {
+                        'success': True,
+                        'message': f'Pedido {action} exitosamente en {duration.total_seconds():.2f}s',
+                        'data': {
+                            'tipoDespacho': tipo_despacho,
+                            'docNum': doc_num,
+                            'numeroDespacho': dispatch.numeroDespacho,
+                            'numeroBusqueda': dispatch.numeroBusqueda,
+                            'codigoCliente': dispatch.codigoCliente,
+                            'nombreCliente': dispatch.nombreCliente,
+                            'action': action,
+                            'stats': stats,
+                            'processing_time': duration.total_seconds()
+                        }
+                    }
+                    
+                except Exception as e:
+                    logger.error(f"Error procesando pedido individual {dispatch.numeroBusqueda}: {str(e)}")
+                    conn.rollback()
+                    return {
+                        'success': False,
+                        'message': f'Error procesando pedido: {str(e)}',
+                        'data': None
+                    }
+                    
+        except Exception as e:
+            logger.error(f"Error en sincronización individual: {str(e)}")
+            return {
+                'success': False,
+                'message': f'Error conectando con SAP: {str(e)}',
+                'data': None
+            }
+    
     async def _sync_dispatch_lines_optimized(self, cursor, dispatch_id: int, lines: List[DispatchLineSTL], stats: Dict):
         """Sincroniza líneas de despacho de forma optimizada"""
         # Obtener líneas existentes con hash

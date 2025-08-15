@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.endpoints import auth, users, dispatches, goods_receipts, items, stl_pedidos, sap_delivery, sap_goods_receipt, telegram_admin, manual_dispatch
+from app.api.endpoints import auth, users, dispatches, goods_receipts, items, stl_pedidos, sap_delivery, sap_goods_receipt, telegram_admin, manual_dispatch, sap_sync
 from app.api.v1.endpoints import sync_config
 
 router = APIRouter()
@@ -15,3 +15,4 @@ router.include_router(sap_delivery.router, prefix="/sap/delivery", tags=["sap-de
 router.include_router(sap_goods_receipt.router, prefix="/sap/goods-receipt", tags=["sap-goods-receipt"])
 router.include_router(telegram_admin.router, prefix="/telegram-admin", tags=["telegram-admin"])
 router.include_router(manual_dispatch.router, prefix="/manual-dispatch", tags=["manual-dispatch"])
+router.include_router(sap_sync.router, prefix="/sap/sync", tags=["sap-sync"])
