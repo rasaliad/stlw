@@ -6,15 +6,49 @@ from app.routers.sap_stl import router as sap_stl_router
 from app.core.config import settings
 from app.services.background_sync_service import background_sync_service
 import logging
+import logging.handlers
 import sys
+from pathlib import Path
 
-# Configurar logging para que salga por stdout/stderr y nssm lo capture
-log_level = getattr(logging, settings.LOG_LEVEL.upper(), logging.INFO)
+# Configurar logging optimizado con rotación automática
+log_level = getattr(logging, settings.LOG_LEVEL.upper(), logging.WARNING)
+
+# Crear directorio de logs si no existe
+log_dir = Path("logs")
+log_dir.mkdir(exist_ok=True)
+
+# Handler con rotación (max 10MB por archivo, mantener 5 archivos)
+file_handler = logging.handlers.RotatingFileHandler(
+    filename=log_dir / "backend.log",
+    maxBytes=10 * 1024 * 1024,  # 10MB
+    backupCount=5,
+    encoding='utf-8'
+)
+file_handler.setLevel(log_level)
+file_handler.setFormatter(logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+))
+
+# Handler para consola (para NSSM y debugging)
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setLevel(log_level)
+console_handler.setFormatter(logging.Formatter(
+    '%(asctime)s - %(levelname)s - %(message)s'
+))
+
+# Configurar logging root
 logging.basicConfig(
     level=log_level,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    stream=sys.stdout
+    handlers=[file_handler, console_handler]
 )
+
+# Silenciar loggers verbosos
+logging.getLogger("uvicorn.access").setLevel(logging.WARNING)
+logging.getLogger("uvicorn.error").setLevel(logging.WARNING)
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("apscheduler.executors.default").setLevel(logging.WARNING)
+logging.getLogger("apscheduler.scheduler").setLevel(logging.WARNING)
+logging.getLogger("passlib").setLevel(logging.ERROR)
 
 logger = logging.getLogger(__name__)
 
