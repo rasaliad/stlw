@@ -13,8 +13,10 @@ from pathlib import Path
 # Configurar logging optimizado con rotación automática
 log_level = getattr(logging, settings.LOG_LEVEL.upper(), logging.WARNING)
 
-# Crear directorio de logs si no existe
-log_dir = Path("logs")
+# Usar directorio de logs de NSSM: C:\App\stlw\logs
+# En producción: ../logs (relativo a backend/)
+# En desarrollo/docker: logs/ (actual directory)
+log_dir = Path(__file__).parent.parent.parent / "logs"  # stlw/logs
 log_dir.mkdir(exist_ok=True)
 
 # Handler con rotación (max 10MB por archivo, mantener 5 archivos)
@@ -29,9 +31,10 @@ file_handler.setFormatter(logging.Formatter(
     '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 ))
 
-# Handler para consola (para NSSM y debugging)
-console_handler = logging.StreamHandler(sys.stdout)
-console_handler.setLevel(log_level)
+# Handler para consola - solo errores críticos (para evitar duplicación con NSSM)
+# NSSM captura stdout/stderr, así que solo enviamos errores críticos a stderr
+console_handler = logging.StreamHandler(sys.stderr)
+console_handler.setLevel(logging.ERROR)  # Solo ERROR y CRITICAL
 console_handler.setFormatter(logging.Formatter(
     '%(asctime)s - %(levelname)s - %(message)s'
 ))
