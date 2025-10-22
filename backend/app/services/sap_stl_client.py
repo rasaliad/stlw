@@ -21,7 +21,15 @@ class SAPSTLClient:
         self.password = settings.SAP_STL_PASSWORD
         self.token: Optional[str] = None
         self.token_expiry: Optional[datetime] = None
-        self.client = httpx.AsyncClient(timeout=30.0)
+        # Timeout aumentado a 120s para operaciones pesadas como sync masivo
+        self.client = httpx.AsyncClient(
+            timeout=httpx.Timeout(
+                connect=10.0,   # Tiempo para establecer conexión
+                read=120.0,     # Tiempo para leer respuesta (aumentado de 30s a 120s)
+                write=10.0,     # Tiempo para enviar datos
+                pool=10.0       # Tiempo para obtener conexión del pool
+            )
+        )
         
         # Configuración para modo simulación
         self.use_mock_data = getattr(settings, 'USE_MOCK_SAP_DATA', False)
